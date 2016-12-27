@@ -1,0 +1,214 @@
+#!/bin/bash
+
+#Anzahl der Parameter auslesen
+#bei einem Parameter:
+#bei zwei Parametern:
+#bei mehr als zwei Parametern
+
+#23-05-16
+#neben dem Umrechnen erfolgt noch eine Umbenennung der info-Datei, sofern vorhanden
+#in den Namen der Video-Datei mit der Endung _info.txt
+
+
+# offen: Mai 2016
+#auch mit einem Parameter, wobei der erste "-r" für rekursiv ist
+#alle 'gefundenen' Dateien werden umgewandelt
+
+
+# offen 27.12.2016
+# -info: Dateiname aus der info-Datei holen, sofern vorhanden
+# -checkinfo oder -cinfo mit dem Parameter t oder s: zeigt den Titel/die Staffel an
+
+
+#schalter: -s nummer
+#nummer beinhaltet die Anzahl in Minuten, die gewartet wird, bis die eigentliche Berechnung startet
+
+#offen: Zeit/Dauer der Umrechnung
+
+datum=`date`;
+#datum=`date "+%y%m%d_%H%M%S"`
+#echo $datum
+
+
+#
+# Festlegung der Umrechnungs-Funktion
+#
+function umrechnen_funktion {
+
+	echo "Funktionsaufruf:";
+	echo "Parameter:";
+	echo $1;
+
+}
+
+
+if test $# = 0
+then
+	echo "nur der Aufruf";
+fi
+
+if test $# = 1
+	then
+		case  $1 in
+		-h|--help)
+			echo "---------------------";
+			echo "hier kommt die Hife";
+			echo "---------------------";
+			echo "";
+			echo "Aufruf mit dem Schalter -i";
+			echo " Legt als Superuser einen Link in /usr/bin an";
+			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";
+			echo " -> die Datei selbst muss ausführbar, d.h. das Flag x besitzen";	
+			echo "";
+			echo "Aufruf mit dem Schalter -remove";
+			echo " Macht die mit -i durchgeführte Operation rückgängig (=Entfernung des Links)";
+			echo " -> sudo rm /usr/bin/video_ffmpeg";
+			echo "";
+			echo "Aufruf mit dem Schalter -s";
+			echo "";
+			echo "";
+			echo "Aufruf mit dem Schalter -r";
+			echo "";
+			echo "";
+			
+			
+			echo "Aufruf mit einem Parameter, wobei dieser nur der Dateiname ohne Endung ist.";
+			echo "Das Script erkennt anhand der Datei-Endung den Typ der Datei und";
+			echo "je nach Endung wird eine Aktion ausgeführt";
+			echo "Mögliche Endungen:";
+			echo "-.flv";
+			echo "-.wmv";
+			echo "-.avi";
+			echo "-.txt";
+			echo "";
+			echo "Beispiele:";
+			echo "video_ffmpeg test";
+			echo "->sofern es die Datei test.avi oder test.flv oder test.wmv gibt, wird diese nach test.mp4 gewandelt.";
+			echo "";
+			echo "->sofern es die Datei test.txt gibt, werden die in der Datei genannten mp4-Dateien zusammengefuegt";
+			echo "  und in die Datei test.mp4 geschrieben".;
+			echo "  Vorher erfolgt eine Ueberpruefung, ob die Datei test.mp4 bereits existiert.";
+			echo "";
+			echo ""; 
+			echo "";
+
+			;;
+		
+		-i)
+			echo " Legt als Superuser einen Link in /usr/bin an";
+			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";
+			sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin;
+			;;
+		
+		
+		-remove)
+			echo "Link wird entfernt";	
+			echo " -> sudo rm /usr/bin/video_ffmpeg";
+			sudo rm /usr/bin/video_ffmpeg;
+#			echo $USER;		
+			;;
+		
+		
+		-r)
+				echo "r";
+				;;
+		
+		-s)
+				echo "s";
+				;;	
+			
+		*)
+			# gibt es die Datei mit der Endung .flv oder nur den Uebergabe-String
+			if test -f $1 || test -f $1.flv
+				then
+					if test -f $1
+						then
+							ffmpeg -i $1 -acodec libvo_aacenc -vcodec libx264 $1.mp4
+						else
+							ffmpeg -i $1.flv -acodec libvo_aacenc -vcodec libx264 $1.mp4
+					fi
+
+				else
+					echo "Keine Flash-Datei";
+			fi
+
+			# gibt es die Datei mit der Endung .wmv oder nur den Uebergabe-String
+			if test -f $1 || test -f $1.wmv
+				then
+					if test -f $1
+						then
+							ffmpeg -i $1 -acodec libvo_aacenc -vcodec libx264 $1.mp4
+						else
+							ffmpeg -i $1.wmv -acodec libvo_aacenc -vcodec libx264 $1.mp4
+					fi
+
+				else
+					echo "Keine wmv-Datei";
+			fi
+
+			# gibt es die Datei mit der Endung .avi oder nur den Uebergabe-String
+			if test -f $1 || test -f $1.avi
+				then
+					if test -f $1
+						then
+							ffmpeg -i $1 -acodec libvo_aacenc -vcodec libx264 $1.mp4
+						else
+							ffmpeg -i $1.avi -acodec libvo_aacenc -vcodec libx264 $1.mp4
+					fi
+
+				else
+					echo "Keine avi-Datei";
+			fi
+
+
+
+			if test -f 00001.m2v
+				then
+				if test -f 00001.mp2
+					then
+					#Dateien sind vorhanden
+					ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
+
+				fi
+			fi
+
+
+			;;
+		esac;
+fi
+
+if test $# = 3
+	then
+	case $1 in 
+	
+	-s)
+		#das folgende m steht für Minuten
+		sleep $2.s;
+		;;
+	
+	*)
+		echo "Fehler beim Aufruf mit 3 Parametern";
+		# Funktionsaufruf
+		umrechnen_funktion wert1;	
+		
+		;;
+	
+	
+	esac;
+
+	
+fi
+
+if test $# -gt 3
+	then
+		echo
+		echo "zu viele Parameter!!";
+		echo "Mehr als 3";
+		echo
+fi
+
+
+echo $datum;
+date;
+
+
