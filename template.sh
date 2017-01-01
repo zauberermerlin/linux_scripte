@@ -4,7 +4,7 @@
 # Grundgeruest zum Start eines Linux Scriptes
 
 
-VERSIONSTRING="Version 0.2 vom 10.12.2016";
+VERSIONSTEXT="Version 0.2 vom 10.12.2016";
 VERSION="0.1";
 echo $VERSION;
 
@@ -80,4 +80,21 @@ echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
 # Datei als User 'root' in /usr/sbin löschen.
 # Zum Abschluss das "nicht"-Vorhandensein testen
 #
+
+#############################################################
+# Parameter: -update
+#############################################################
 #
+# Offizieller Pfad des Repos'
+# https://github.com/zauberermerlin/linux_scripte.git
+#
+# für curl wird der raw Pfad der einzelnen Datei benötigt
+#
+#
+#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/template.sh >template.sh
+#
+
+#############################################################
+# Parameter: -checkupdate
+#############################################################
+

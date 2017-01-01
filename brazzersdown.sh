@@ -13,6 +13,9 @@
 #
 # (2) slug name
 
+VERSION=0.1;
+VERSIONSTEXT="brazzersdown: Version: 0.1 vom 01.01.2017";
+
 #echo $# = Anzahl der Parameter
 #echo $0 = dateiname
 #echo $1 = Parameter (1)
@@ -64,6 +67,12 @@ case "$1" in
 
    -h|--help)
 	echo "Hilfe";;
+	
+	-update)
+	echo"Hier kommen die Updatebefehle";;
+	#vorhandene Version
+	#Version aus Repo
+	
    *)
 	echo "unbekannter Parameter";;
 esac
