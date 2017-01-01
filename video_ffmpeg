@@ -5,6 +5,18 @@
 #bei zwei Parametern:
 #bei mehr als zwei Parametern
 
+#######################
+#
+# Offizieller Pfad des Repos'
+# https://github.com/zauberermerlin/linux_scripte.git
+#
+# für curl wird der raw Pfad der einzelnen Datei benötigt
+#
+#
+#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/video_ffmpeg >video_ffmpeg.sh
+#
+#######################
+
 #23-05-16
 #neben dem Umrechnen erfolgt noch eine Umbenennung der info-Datei, sofern vorhanden
 #in den Namen der Video-Datei mit der Endung _info.txt
@@ -13,6 +25,12 @@
 # offen: Mai 2016
 #auch mit einem Parameter, wobei der erste "-r" für rekursiv ist
 #alle 'gefundenen' Dateien werden umgewandelt
+
+
+# offen 24.12.16
+# -1
+# -2
+# Als Name wird die Verzeichnisebene 1 oder 2 oberhalb verwendet
 
 
 # offen 27.12.2016
