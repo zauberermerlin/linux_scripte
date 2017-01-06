@@ -96,7 +96,7 @@ then
 	# +-Zeichen und Leerzeichen durch Bindestrich ersetzen
 	#
 	#neu=$(echo "[2ChicksSameTime]+Aaliyah+Love,+Nina+Elle+(22175+%2F+01.06.2017).mp4?mime=true" | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '.mp4' '{print $1}' | tr -d "[],()%");
-	neu=$(echo $i | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '?mime' '{print $1}' | tr -d "[],()%");
+	neu=$(echo $i | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '?mime' '{print $1}' | tr -d "[],()%" | sed s/2f-//g);
 	
 	
 	# wenn $i gleich $neu ist, dann ist nix zu tun
