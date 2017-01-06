@@ -84,6 +84,10 @@ then
 	do
 		if [ -f $i ]
 		then
+			# Dateiname enthält den String mp4
+			if [ -n "`echo $i | grep "mp4"`" ]
+				then
+
 	#		echo $i "ist eine Datei";
 	# Bsp. für einen Dateinamen
 	# Aufteilen in den Bereich vor .mp4"
@@ -94,8 +98,13 @@ then
 	#neu=$(echo "[2ChicksSameTime]+Aaliyah+Love,+Nina+Elle+(22175+%2F+01.06.2017).mp4?mime=true" | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '.mp4' '{print $1}' | tr -d "[],()%");
 	neu=$(echo $i | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '?mime' '{print $1}' | tr -d "[],()%");
 	
-	echo $i "wird zu" $neu;	
 	
+	# wenn $i gleich $neu ist, dann ist nix zu tun
+	if [ $i != $neu ]
+		then
+			echo $i "wird zu" $neu;	
+	fi;
+		fi;
 		fi;
 	done;
 
