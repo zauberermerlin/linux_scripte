@@ -66,15 +66,43 @@ case "$1" in
 	echo;;
 
    -h|--help)
-	echo "Hilfe";;
+	echo "Hilfe";
+	echo "";
+	echo "Aufruf:"
+	echo "brazzersdown.sh [nummer] [zu_speichernder_dateiname]";
+	echo "";
+	echo "[nummer]: eine 4- oder 5 stellige Zahl aus der brazzers-URL";
+	echo "[zu_speichernder_dateiname]: ein frei wählbarer Name ohne Leer- bzw. Sonderzeichen";
+	echo "";
+	echo "Beispiel:";
+	echo " Die komplette URL lautet:";
+	echo " ->http://www.brazzers.com/scenes/view/id/10403/internet-outage-poundage/";
+	echo " ->[nummer] wäre damit: 10403";
+	echo " Aufruf: brazzersdown.sh 10403 internet-outage-poundage";
 	
-	-update)
-	echo"Hier kommen die Updatebefehle";;
+	
+	echo "";;
+	
+	-checkupdate)
 	#vorhandene Version
 	#Version aus Repo
 	
+	echo "Hier kommen die Check-Updatebefehle";
+	echo "";;
+	
+	
+	-update)
+	#vorhandene Version
+	#Version aus Repo
+	
+	echo "Hier kommen die Updatebefehle";
+	echo "";;	
+	
+	
    *)
-	echo "unbekannter Parameter";;
+	echo "";
+	echo "unbekannter Parameter";
+	echo "";;
 esac
 fi
 
