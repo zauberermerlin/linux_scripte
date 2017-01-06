@@ -1,7 +1,8 @@
 #!/bin/bash
 #
-# Schablone fuer Scripte
-# Grundgeruest zum Start eines Linux Scriptes
+# Im Anschluss an den Download (bspw. mittels wget) Umbennen aller Dateien im aktuellen Verzeichnis
+#
+# Programm-Aufruf mit einem oder keinem Parameter
 
 #######################
 #
@@ -10,49 +11,42 @@
 #
 # für curl wird der raw Pfad der einzelnen Datei benötigt
 #
-#
-#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/video_ffmpeg >video_ffmpeg.sh
+# curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/download_umbenennen.sh >download_umbenennen.sh
 #
 #######################
 
 
 
-VERSIONSTEXT="Version 0.2 vom 10.12.2016";
+VERSIONSTEXT="Version 0.1 vom 06.01.2017";
 VERSION="0.1";
-echo $VERSION;
+echo "Version:" $VERSION;
 
 BEGINN_DATUM=$(date +%d.%m.%Y);
-echo $BEGINN_DATUM;
+#echo $BEGINN_DATUM;
 
 LAUFZEIT_BEGINN=$(date +%s);
-echo $LAUFZEIT_BEGINN;
-sleep 2s
+#echo $LAUFZEIT_BEGINN;
 
 LAUFZEIT_ENDE=$(date +%s);
-echo $LAUFZEIT_ENDE;
-echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
+#echo $LAUFZEIT_ENDE;
+#das folgende Snippet ist noch mit Fehlern behaftet; die Differenz wird nicht ausgegeben, sondern als String
+#echo $LAUFZEIT_BEGINN-$LAUFZEIT_ENDE;
 
 
 # Aufruf-Parameter, die in jedem Script vorhanden sein sollten:
 # -h oder --help: Hilfstext mit Bsp.
-# -install: kopieren und verlinken des Scripts, damit direkter Zugriff erfolgt
-# -remove: den mit -install durchgeführten Vorgang rückgängig machen
 # -check: Verlinkung und chmod, chown Settings
-# -s: sleep/warten in Minuten und herunterzählen in einer Zeile wieviel Minuten noch zu warten ist
 # -w: nach Beendigung eine Whatsapp versenden
 # -m: nach Beendigung eMail versenden
 # -v oder --version: Ausgabe des Versionsstrings
 # --check:: überprüfen, ob ein Update auf github vorhanden ist
 # --update: neueste Version von github holen und installieren
 #
-#
 # -ansible: Erstellung bzw. Anzeige des Ansible Playbooks
 # -log: schreibt ins aktuelle Verzeichnis die Datei log.txt
 # -test
 #
-# Überpruefung der mitgegebenen Parameter. Ist einer der Parameter
-# -h oder --help oder -install oder -remove vorhanden, dann werden alle
-# anderen Parameter ignoriert
+#
 # Anzahl der Paramter: $#
 # erster Parameter: $1
 # alle Argumente in einer Zeichenkette: $*
@@ -67,6 +61,61 @@ echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
 # Länge der Parameterliste:
 # len=${#array[@]}
 
+if [ $# -gt 1 ]
+then
+	echo "Der Aufruf erfolgte mit:" $# "Parametern.";
+	echo "Möglich sind keiner oder 1 Parameter.";
+	echo "Hilfe mit:" $0 "-h oder " $0 "--help";
+	echo "";
+	exit;
+fi	
+
+###########################
+#
+# Programmstart
+#
+###########################
+
+if [ $# -eq 0 ]
+then
+	# alle Einträge im Verzeichnis abarbeiten
+	# nur Dateien sind relevant; Verzeichnisse werden verworfen
+	for i in *
+	do
+		if [ -f $i ]
+		then
+	#		echo $i "ist eine Datei";
+	# Bsp. für einen Dateinamen
+	# Aufteilen in den Bereich vor .mp4"
+	# Alles in Kleinbuchsaben
+	# Sonderzeichen entfernen: [, ], Komma, Apostroph
+	# +-Zeichen und Leerzeichen durch Bindestrich ersetzen
+	#
+	#neu=$(echo "[2ChicksSameTime]+Aaliyah+Love,+Nina+Elle+(22175+%2F+01.06.2017).mp4?mime=true" | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '.mp4' '{print $1}' | tr -d "[],()%");
+	neu=$(echo $i | sed s/+/-/g | tr [:upper:] [:lower:] | awk -F '?mime' '{print $1}' | tr -d "[],()%");
+	
+	echo $i "wird zu" $neu;	
+	
+		fi;
+	done;
+
+fi
+
+
+
+########################
+if [ $# = 1 ]
+then
+	echo "Hier werden jetzt mit case die ganzen Parameter abgearbeitet";
+#case Variable in
+#  Muster1) Kommando1 ;;
+#  Muster2) Kommando2 ;;
+#  Muster3) Kommando3 ;;
+#esac
+
+
+fi
+
 
 #############################################################
 #
@@ -74,24 +123,6 @@ echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
 #Datei: .bashrc
 #PATH=$PATH:/home/thomas/script
 #(mit Doppelpunkt)
-#
-#############################################################
-#############################################################
-# Parameter: -install
-#############################################################
-#
-# Datei ist mit dem User 'root' nach /usr/sbin zu kopieren (verlinken geht nicht; warum??? unklar)
-# anschliessend ist das r und x Flag für alle zu setzen.
-# Zum Abschluss testen, ob die Datei dort auch wirklich vorhanden ist
-#
-# sudo cp $0 /usr/sbin 
-#
-#############################################################
-# Parameter: -remove
-#############################################################
-#
-# Datei als User 'root' in /usr/sbin löschen.
-# Zum Abschluss das "nicht"-Vorhandensein testen
 #
 
 #############################################################
