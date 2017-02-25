@@ -12,6 +12,7 @@
 #     -> stamm_2: /preview/img
 #
 # (2) slug name
+# neu
 
 VERSION=0.1;
 VERSIONSTEXT="brazzersdown: Version: 0.1 vom 01.01.2017";
