@@ -13,6 +13,7 @@
 #
 # (2) slug name
 # neu
+# noch ein Versuch
 
 VERSION=0.1;
 VERSIONSTEXT="brazzersdown: Version: 0.1 vom 01.01.2017";
