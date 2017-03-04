@@ -41,6 +41,15 @@
 #schalter: -s nummer
 #nummer beinhaltet die Anzahl in Minuten, die gewartet wird, bis die eigentliche Berechnung startet
 
+#offen 04.03.2017
+# -r: Berechnung rekursiv
+# -rcheck: Terminalausgabe, welche/wieviele Dateien geändert werdenl
+# -wa: whatsapp Mitteilung: dahinter entweder individueller Text oder log.datei
+#
+# Anlage der temporären log-Datei: video_ffmpeg.log; zum Abschluss Anzeige mit cat und anschliessendes Löschen
+# Werte in der Datei werden noch aufgeschrieben
+# -h oder --help
+
 #offen: Zeit/Dauer der Umrechnung
 
 datum=`date`;
@@ -48,15 +57,22 @@ datum=`date`;
 #echo $datum
 
 
+
+
 #
 # Festlegung der Umrechnungs-Funktion
 #
-function umrechnen_funktion {
 
-	echo "Funktionsaufruf:";
-	echo "Parameter:";
-	echo $1;
+function umrechnen_funktion () {
 
+# The function refers to passed arguments by their position (not by name), that is $1, $2, and so forth.
+# $0 is the name of the script itself.
+
+	echo "Funktionsaufruf:" $0;
+	echo "Parameter 1:" $1;
+	
+#	tail -c3;
+	
 }
 
 
@@ -86,6 +102,18 @@ if test $# = 1
 			echo "";
 			echo "";
 			echo "Aufruf mit dem Schalter -r";
+			echo "";
+			echo "";
+			echo "Aufruf mit dem Schalter -rcheck";
+			echo "";
+			echo "";
+			echo "Aufruf mit dem Schalter -wa";
+			echo "";
+			echo "";
+			echo "Aufruf mit dem Schalter -1";
+			echo "";
+			echo "";
+			echo "Aufruf mit dem Schalter -2";
 			echo "";
 			echo "";
 			
@@ -130,6 +158,17 @@ if test $# = 1
 		-r)
 				echo "r";
 				;;
+
+		-rcheck)
+		if test $# -gt 2
+			then
+				echo "Fehlerhafter Aufruf des Parameters -r".
+				echo "Keine weiteren Parameter beim Aufruf vom -r möglich";
+				echo
+		fi
+		
+				;;
+
 		
 		-s)
 				echo "s";
@@ -220,7 +259,7 @@ fi
 if test $# -gt 3
 	then
 		echo
-		echo "zu viele Parameter!!";
+		echo "Zu viele Parameter!!";
 		echo "Mehr als 3";
 		echo
 fi
