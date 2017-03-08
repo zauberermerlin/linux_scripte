@@ -15,7 +15,7 @@
 #
 
 VERSION=0.1;
-VERSIONSTEXT="brazzersdown: Version: 0.1 vom 01.01.2017";
+VERSIONSTEXT="brazzersdown.sh: Version: 0.1 vom 01.01.2017";
 
 #echo $# = Anzahl der Parameter
 #echo $0 = dateiname
