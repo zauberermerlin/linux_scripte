@@ -1,0 +1,25 @@
+# Template-Datei
+#
+# wird manuell erstellt
+# Aufbau:
+# PARAMETER="wert";
+#
+# Die Reihenfolge der Parameter ist irrelevant
+#
+# Die Datei wird mit dem Linux-Konsole-Befehle 'source' ausgelesen und ausgewertet
+#
+SLUG="dont-touch-her-3";
+#erstellt am 12.02.2017
+TITEL="Don't touch her 3";
+ACTRESS="Kayla Kayden";
+ACTOR="Charles Dera";
+STUDIO="Brazzers";
+ALBUM="Brazzers Extra";
+SERIE="Dont touch her";
+#release=
+bilder="j";
+thumbs=n
+VR="n";
+FIRST="n";
+BESCHREIBUNG="Charles just wants a nice lap dance but his uptight girlfriend is being a naggy shithead. Fortunately for him, sexy stripper Kayla Kayden knows a thing or two about subtlety, which is how she manages to engulf Charles' throbbing cock with her juicy pussy and extra tight asshole right in front of his woman without her being any the wiser! ";
+

@@ -29,21 +29,20 @@
 # Paramter -r für rekursiv
 
 
-VERSIONSTEXT="Version 0.1 vom 08.03.2017";
+VERSIONSTEXT="08.03.2017";
 VERSION="0.1";
-echo $VERSIONSTEXT;
+# echo $VERSIONSTEXT;
 
 
 BEGINN_DATUM=$(date +%d.%m.%Y);
-echo $BEGINN_DATUM;
+# echo $BEGINN_DATUM;
 
 LAUFZEIT_BEGINN=$(date +%s);
-echo $LAUFZEIT_BEGINN;
-sleep 2s
+# echo $LAUFZEIT_BEGINN;
 
 LAUFZEIT_ENDE=$(date +%s);
-echo $LAUFZEIT_ENDE;
-echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
+# echo $LAUFZEIT_ENDE;
+# echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
 
 
 # Aufruf-Parameter, die in jedem Script vorhanden sein sollten:
@@ -123,4 +122,57 @@ echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
 #############################################################
 # Parameter: -checkupdate
 #############################################################
+
+##########
+#
+# Funktion definieren
+#
+################
+
+function tags_schreiben()
+{
+	echo "Funktionsaufruf";	
+}
+
+CHECK="n";
+
+case $1 in
+-h|--h|--help|-help)
+	echo "Hilfe";
+	echo $0 "Version:" $VERSION "vom" $VERSIONSTEXT;
+	echo "";;
+
+-r)
+	echo "-r"
+	echo "";;
+	
+-check)
+	echo "-check"
+	echo "";;
+
+
+*)
+
+if (test -f $1)
+	then
+		source $1;
+	else
+		echo "";
+		echo "Fehler";
+		echo "Parameter ist keine Datei!";
+		echo "";
+		exit;
+fi	
+
+# hier fängt das eigentliche Programm an
+
+tags_schreiben;
+
+#echo $TITEL;
+#echo "";
+#echo $BESCHREIBUNG;
+
+esac
+
+
 
