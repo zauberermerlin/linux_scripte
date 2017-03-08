@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION="0.1";
-VERSIONSDATUM="08.03.2007";
+VERSIONSTEXT="08.03.2007";
 
 #Anzahl der Parameter auslesen
 #bei einem Parameter:
@@ -93,6 +93,7 @@ if test $# = 1
 			echo "hier kommt die Hife";
 			echo "---------------------";
 			echo "";
+			echo $0 "Version:" $VERSION "vom" $VERSIONSTEXT;
 			echo "Aufruf mit dem Schalter -i";
 			echo " Legt als Superuser einen Link in /usr/bin an";
 			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";

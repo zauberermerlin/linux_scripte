@@ -15,7 +15,8 @@
 #
 
 VERSION=0.1;
-VERSIONSTEXT="brazzersdown.sh: Version: 0.1 vom 01.01.2017";
+#VERSIONSTEXT="brazzersdown.sh: Version: 0.1 vom 01.01.2017";
+VERSIONSTEXT=$0", Version "$VERSION" vom 08.03.2017";
 
 #echo $# = Anzahl der Parameter
 #echo $0 = dateiname
@@ -67,7 +68,8 @@ case "$1" in
 	echo;;
 
    -h|--help)
-	echo "Hilfe:" VERSIONSTEXT;
+	echo "";
+	echo "Hilfe:" $VERSIONSTEXT;
 	echo "";
 	echo "Aufruf:"
 	echo "brazzersdown.sh [nummer] [zu_speichernder_dateiname]";
