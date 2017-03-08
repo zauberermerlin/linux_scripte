@@ -67,7 +67,7 @@ case "$1" in
 	echo;;
 
    -h|--help)
-	echo "Hilfe";
+	echo "Hilfe:" VERSIONSTEXT;
 	echo "";
 	echo "Aufruf:"
 	echo "brazzersdown.sh [nummer] [zu_speichernder_dateiname]";
