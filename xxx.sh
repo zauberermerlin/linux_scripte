@@ -5,8 +5,6 @@
 #
 #
 
-
-
 #######################
 #
 # Offizieller Pfad des Repos'
@@ -15,11 +13,9 @@
 # fuer curl wird der raw Pfad der einzelnen Datei benötigt
 #
 #
-#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/video_ffmpeg >video_ffmpeg.sh
+#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/xxx.sh >xxx.sh
 #
 #######################
-
-
 
 VERSIONSDATUM="08.03.2017";
 VERSION="0.1";
@@ -33,7 +29,6 @@ LAUFZEIT_BEGINN=$(date +%s);
 LAUFZEIT_ENDE=$(date +%s);
 #echo $LAUFZEIT_ENDE;
 #echo $LAUFZEIT_BEGINN - $LAUFZEIT_ENDE;
-
 
 #############################################################
 #
@@ -92,10 +87,13 @@ function hilfe_text()
 {
 echo "";
 echo "Hilfe fuer:" $0 "Version:" $VERSION "vom:" $VERSIONSDATUM
+
+echo "-brazdown: Bilder downloaden aufgrund der Einträge in der slug.txt Datei";
+echo "";
 }
 
 #
-# Ueberpr�ft ob und welche Dateien vorhanden sind
+# Ueberprüft ob und welche Dateien vorhanden sind
 # exiftool
 # 
 # slug.mp4-Datei
@@ -105,6 +103,7 @@ echo "Hilfe fuer:" $0 "Version:" $VERSION "vom:" $VERSIONSDATUM
 
 function programme_dateien_check()
 {
+# Überprüfen, ob eine *.txt Datei vorhanden ist (=slug-Datei)
 }
 
 
@@ -139,6 +138,7 @@ function programme_dateien_check()
 # Parameter: -check (ggfls. in Verbindung mit -r oder -update)
 # Parameter: -log: log_jjjjmmtt-hhmm.txt-Datei im aktuellen Verzeichnis erzeugen
 # Parameter: -v oder --version
+# Parameter: -brazdown
 # -ansible: Erstellung bzw. Anzeige des Ansible Playbooks
 # -install: kopieren und verlinken des Scripts, damit direkter Zugriff erfolgt (ggfls. mit -check)
 # -remove: den mit -install durchgefuehrten Vorgang rueckgaengig machen
@@ -178,6 +178,35 @@ case $1 in
 		echo "Version:" $VERSION "vom:" $VERSIONSDATUM
 		echo "";
 		exit;;
+	-brazdown)
+		echo "";
+		
+		source $2;
+		
+	stamm1="http://static.brazzers.com/scenes/";
+	stamm2="/preview/img";
+
+	#echo $stamm1;
+	#echo $stamm2;
+
+	for((i=1;i<10;i++)) do
+	    		    quelle=$stamm1$BRAZNR$stamm2"/0"$i".jpg";
+	    		    wget $quelle
+	    mv "0"$i".jpg" "0"$i"-"$SLUG".jpg";
+#	    mv "0"$i"-"$SLUG".jpg" "./"$SLUG
+	    echo $quelle;
+	done
+
+	for((i=0;i<6;i++)) do
+		    quelle=$stamm1$BRAZNR$stamm2"/1"$i".jpg";
+		    wget $quelle
+	    mv "1"$i".jpg" "1"$i"-"$2".jpg";
+#	    mv "1"$i"-"$2".jpg" "./"$2
+	    echo $quelle;
+	done		
+		exit;;
+
+
 
 	*)
 		echo "";

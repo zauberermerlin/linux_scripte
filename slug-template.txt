@@ -8,7 +8,8 @@
 #
 # Die Datei wird mit dem Linux-Konsole-Befehle 'source' ausgelesen und ausgewertet
 #
-SLUG="dont-touch-her-3";
+SLUG="mamas-car-wash";
+BRAZNR="10497"
 #erstellt am 12.02.2017
 TITEL="Don't touch her 3";
 ACTRESS="Kayla Kayden";
