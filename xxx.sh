@@ -73,7 +73,6 @@ LAUFZEIT_ENDE=$(date +%s);
 # Parameter: -checkupdate
 #############################################################
 
-
 #############################################################
 # Funktionen definieren
 # muessen vor dem Aufruf definiert werden
@@ -87,8 +86,15 @@ function hilfe_text()
 {
 echo "";
 echo "Hilfe fuer:" $0 "Version:" $VERSION "vom:" $VERSIONSDATUM
+echo "";
+echo "-t | --template: Template-Datei wird erzeugt";
+echo "";
+echo "-exifdatei: Exif-Datei 'slug.exif' wird erzeugt";
+echo "";
+echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
+echo "";
 
-echo "-brazdown: Bilder downloaden aufgrund der Einträge in der slug.txt Datei";
+echo "-brazdown: Bilder downloaden aufgrund der Einträge in der 'slug.txt' Datei";
 echo "";
 }
 
@@ -98,13 +104,15 @@ echo "";
 # 
 # slug.mp4-Datei
 # slug.txt-Datei
+# slug.exif-Datei
 # slug.jpg-Dateien
+# slug_thumbs.jpg-Dateien
 #
 
 function programme_dateien_check()
 {
 # Überprüfen, ob eine *.txt Datei vorhanden ist (=slug-Datei)
-echo "";
+echo "check";
 }
 
 
@@ -143,7 +151,7 @@ echo "";
 # -ansible: Erstellung bzw. Anzeige des Ansible Playbooks
 # -install: kopieren und verlinken des Scripts, damit direkter Zugriff erfolgt (ggfls. mit -check)
 # -remove: den mit -install durchgefuehrten Vorgang rueckgaengig machen
-# -w: nach Beendigung eine Whatsapp versenden
+# -wa: nach Beendigung eine Whatsapp versenden
 # -m: nach Beendigung eMail versenden
 # -git: Ueberpruefen, ob ein Update auf github vorhanden ist
 # -update: neueste Version von github holen und installieren
@@ -170,15 +178,7 @@ case $1 in
 		echo "Version:" $VERSION "vom:" $VERSIONSDATUM
 		echo "";
 		exit;;
-	-info)
-		echo "";
-		echo "Informationen";
-		echo "=============";
-		echo "";
-		echo "Programm:" $0;
-		echo "Version:" $VERSION "vom:" $VERSIONSDATUM
-		echo "";
-		exit;;
+
 	-brazdown)
 		echo "";
 		
@@ -207,7 +207,49 @@ case $1 in
 	done		
 		exit;;
 
+	-t|--template)
+		# Ablauf
+		# (1) Name des Stammverzeichnisses holen
+		# (2) Überprüfen, ob es im aktuellen Verzeichnis die Datei stammverzeichnis.txt gibt
+		# (3) Überprüfen, ob es im Verzeichnis /home/thomas/scripts/ die Datei template_xxx.txt gibt
+		# (4) kopieren von template_xxx.txt ins aktuelle Verzeichnis und umbenennen in stammverzeichnis.txt
+		#
 
+		SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
+		SLUGTXT=$SLUG".txt";
+
+		if [ -f $SLUGTXT ]
+		then
+			echo "Slug-Datei:" $SLUGTXT "ist bereits vorhanden";
+			echo "";
+		else
+			if [ -f /home/thomas/scripts/slug-template.txt ]
+			then
+				echo "Template wird kopiert/erstellt.";
+				cp /home/thomas/scripts/slug-template.txt ./$SLUGTXT;
+				echo "####" >>$SLUGTXT;
+				date >>$SLUGTXT;
+				echo 'SLUG="'$SLUG'";' >>$SLUGTXT; 
+				echo "####" >>$SLUGTXT;
+				echo "Fertig.";
+				echo "";
+			else
+				echo "Es existiert keine original Slug-Datei im Verzeichnis /home/thomas/scripts";
+				echo "mit dem Namen slug-template.txt.";
+				echo "";
+			fi
+		fi
+						
+		exit;;
+
+	-exifdatei)
+		echo "";
+		echo "";;
+
+
+	-exifschreiben)
+		echo "";
+		echo "";;
 
 	*)
 		echo "";

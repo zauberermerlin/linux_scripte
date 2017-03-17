@@ -1,5 +1,8 @@
 # Version 0.1 vom 15.01.2017
 #
+# Datei sollte fuer Linux und Windows gueltig sein.
+#
+
 -title=Eyes down
 -label=Eyes Down Label
 
