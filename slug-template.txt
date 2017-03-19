@@ -1,8 +1,8 @@
+#
 # Template-Datei
 #
 # wird manuell befüllt
-# Aufbau:
-# PARAMETER="wert";
+# Aufbau: PARAMETER="wert";
 #
 # Die Reihenfolge der Parameter ist irrelevant
 #
@@ -12,23 +12,24 @@
 VERSION="0.1";
 
 #SLUG wird maschinell geschrieben
-#SLUG="mamas-car-wash";
-BRAZNR="10497"
+
+BRAZNR="10497";
 NA="NaughtyAmerica";
-#Datum-Format: yyyy:mm:dd hh:mm
-#Datum-Format: 2015:11:10 00:00
-ERSTELLT_AM="";
+# Datum-Format: yyyy:mm:dd hh:mm
+# Datum-Format: 2017:03:10 00:00
+RELEASE="00:00";
+#ERSTELLT_AM="";
 TITEL="Don't touch her 3";
+# Mehrere mittels ; (Semikolon) trennen
 ACTRESS="Kayla Kayden";
 ACTOR="Charles Dera";
 STUDIO="Brazzers";
 ALBUM="Brazzers Extra";
 SERIE="Dont touch her";
-PART="3";
-#release=
-bilder="j";
-thumbs="n";
+PART="1";
+BILDER="j";
+THUMBS="n";
 VR="n";
 FIRST="n";
-BESCHREIBUNG="Charles just wants";
+BESCHREIBUNG="Charles";
 

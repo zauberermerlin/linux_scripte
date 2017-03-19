@@ -80,6 +80,7 @@ SLUGEXIF=$SLUG".exif";
 STAMM_BRAZ_1="http://static.brazzers.com/scenes/";
 STAMM_BRAZ_2="/preview/img";
 
+ANZAHL_ZEILEN=$(wc -l /home/thomas/scripts/slug-template.txt | cut -c 1-2);
 
 
 #############################################################
@@ -102,7 +103,6 @@ echo "-exifdatei: Exif-Datei 'slug.exif' wird erzeugt";
 echo "";
 echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
 echo "";
-
 echo "-braz: Bilder downloaden aufgrund der Einträge in der 'slug.txt' Datei";
 echo "";
 }
@@ -175,7 +175,7 @@ if [ $#=1 ]
 
 #-DateTimeOriginal=2015:11:10 00:00
 		echo -n "-DateTimeOriginal=" >>$1;
-		echo $ERSTELLT_AM >>$1;
+		echo $RELEASE >>$1;
 		echo "" >>$1;
 	else
 		echo "Fehler beim Aufruf der Funktion exiftool_daten_in_datei_schreiben.";
@@ -257,8 +257,11 @@ case $1 in
 		# (1) Name des Stammverzeichnisses holen
 		# (2) Überprüfen, ob es im aktuellen Verzeichnis die Datei stammverzeichnis.txt gibt
 		# (3) Überprüfen, ob es im Verzeichnis /home/thomas/scripts/ die Datei template_xxx.txt gibt
-		# (4) kopieren von template_xxx.txt ins aktuelle Verzeichnis und umbenennen in stammverzeichnis.txt
-		#
+		# (4) Leere Datei stammverzeichnis.txt im aktuellen Verzeichnis erstellen
+		# (5) Kopf aus slug-template.txt in Datei übertragen
+		# (6) Zeitstempel in Datei einfügen
+		# (7) Datenfeld SLUG erzeugen und befüllen
+		# (8) Datenfelder aus slug-template.txt übertragen
 
 		SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
 		SLUGTXT=$SLUG".txt";
@@ -271,15 +274,13 @@ case $1 in
 			if [ -f /home/thomas/scripts/slug-template.txt ]
 			then
 				echo "Template wird kopiert/erstellt.";
-				cp /home/thomas/scripts/slug-template.txt ./$SLUGTXT;
-
+				touch $SLUGTXT;
 				datum_in_datei_schreiben $SLUGTXT;
-#				echo "##############################" >>$SLUGTXT;
-#				echo -n "# ";
-#				date >>$SLUGTXT;
-#				echo "";
-#				echo "##############################" >>$SLUGTXT;
+				head -n 15 /home/thomas/scripts/slug-template.txt >>$SLUGTXT;
 				echo 'SLUG="'$SLUG'";' >>$SLUGTXT; 
+
+				tail -n $((ANZAHL_ZEILEN-15)) /home/thomas/scripts/slug-template.txt >>$SLUGTXT;
+
 				echo "Fertig.";
 #				echo "";
 			else
@@ -288,7 +289,6 @@ case $1 in
 				echo "";
 			fi
 		fi
-						
 		exit;;
 
 	-braz)
@@ -297,22 +297,19 @@ case $1 in
 			echo "Lade slug-Datei";
 			source $SLUGTXT;
 
-	for((i=1;i<10;i++)) do
-		QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/0"$i".jpg";
-		wget $QUELLE
-		mv "0"$i".jpg" "0"$i"-"$SLUG".jpg";
-	done
-
-	for((i=0;i<6;i++)) do
-		QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/1"$i".jpg";
-		wget $QUELLE
-		mv "1"$i".jpg" "1"$i"-"$SLUG".jpg";
-	done
+				for((i=1;i<10;i++)) do
+					QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/0"$i".jpg";
+					wget $QUELLE
+					mv "0"$i".jpg" "0"$i"-"$SLUG".jpg";
+				done
 			
-			
+				for((i=0;i<6;i++)) do
+					QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/1"$i".jpg";
+					wget $QUELLE
+					mv "1"$i".jpg" "1"$i"-"$SLUG".jpg";
+				done
 		fi
-		exit;
-		echo "";;
+		exit;;
 
 	-exifdatei)
 		if [ -f $SLUGEXIF ]
