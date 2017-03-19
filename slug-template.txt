@@ -11,11 +11,14 @@
 
 VERSION="0.1";
 
-#SLUG wird amschinell geschrieben
+#SLUG wird maschinell geschrieben
 #SLUG="mamas-car-wash";
 BRAZNR="10497"
 NA="NaughtyAmerica";
 #erstellt am 12.02.2017
+#Datum-Format: yyyy:mm:dd hh:mm
+#Datum-Format: 2015:11:10 00:00
+ERSTELLT_AM="2015:11:10 00:00"
 TITEL="Don't touch her 3";
 ACTRESS="Kayla Kayden";
 ACTOR="Charles Dera";

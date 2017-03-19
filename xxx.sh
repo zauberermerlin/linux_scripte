@@ -115,6 +115,12 @@ function programme_dateien_check()
 echo "check";
 }
 
+SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
+SLUGTXT=$SLUG".txt";
+SLUGEXIF=$SLUG".exif";
+
+STAMM_BRAZ_1="http://static.brazzers.com/scenes/";
+STAMM_BRAZ_2="/preview/img";
 
 
 #############################################################
@@ -227,10 +233,12 @@ case $1 in
 			then
 				echo "Template wird kopiert/erstellt.";
 				cp /home/thomas/scripts/slug-template.txt ./$SLUGTXT;
-				echo "####" >>$SLUGTXT;
+				echo "##############################" >>$SLUGTXT;
+				echo -n "# ";
 				date >>$SLUGTXT;
+				echo "";
+				echo "##############################" >>$SLUGTXT;
 				echo 'SLUG="'$SLUG'";' >>$SLUGTXT; 
-				echo "####" >>$SLUGTXT;
 				echo "Fertig.";
 				echo "";
 			else
@@ -242,8 +250,99 @@ case $1 in
 						
 		exit;;
 
+	-braz)
+		if [ -f $SLUGTXT ]
+		then
+			echo "Lade slug-Datei";
+			source $SLUGTXT;
+			
+	#stamm1="http://static.brazzers.com/scenes/";
+	#stamm2="/preview/img";
+
+	for((i=1;i<10;i++)) do
+		QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/0"$i".jpg";
+		wget $QUELLE
+		mv "0"$i".jpg" "0"$i"-"$SLUG".jpg";
+#	mv "0"$i"-"$SLUG".jpg" "./"$SLUG
+		echo $QUELLE;
+	done
+
+	for((i=0;i<6;i++)) do
+		QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/1"$i".jpg";
+#		    quelle=$stamm1$BRAZNR$stamm2"/1"$i".jpg";
+		wget $quelle
+		mv "1"$i".jpg" "1"$i"-"$2".jpg";
+		mv "1"$i"-"$2".jpg" "./"$2
+		echo $quelle;
+	done
+			
+			
+			
+			
+		fi
+		exit;
+		echo "";;
+
 	-exifdatei)
-		echo "";
+		if [ -f $SLUGEXIF ]
+		then
+			echo "Exif-Datei existiert bereits.";
+			echo "Nix gemacht.";
+			echo "";
+			exit;
+		else
+			if [ -f $SLUGTXT ]
+			then
+			echo "Lade slug-Datei";
+			source $SLUGTXT;
+			echo "es geht los";	
+			
+			touch $SLUGEXIF;
+				echo "##############################" >>$SLUGEXIF;
+				echo -n "# " >>$SLUGEXIF;
+				date >>$SLUGEXIF;
+				echo "##############################" >>$SLUGEXIF;
+				echo "" >>$SLUGEXIF;
+				echo -n "-title=" >>$SLUGEXIF;
+				echo $TITEL >>$SLUGEXIF;
+				echo -n "-label=" >>$SLUGEXIF;
+				echo $TITEL >>$SLUGEXIF;
+				echo -n "-xpauthor=" >>$SLUGEXIF;
+				echo $STUDIO >>$SLUGEXIF;
+				echo -n "-keywords=" >>$SLUGEXIF;
+				echo -n $ACTRESS >>$SLUGEXIF;
+				echo -n "; " >>$SLUGEXIF;
+				echo $ACTOR >>$SLUGEXIF;
+				echo -n "-personinimage=" >>$SLUGEXIF;
+				echo $ACTRESS >>$SLUGEXIF;
+				echo "" >>$SLUGEXIF;
+				
+				echo -n "-xpcomment=" >>$SLUGEXIF;
+				echo $BESCHREIBUNG >>$SLUGEXIF;
+				echo -n "-Caption-Abstract=" >>$SLUGEXIF;
+				echo $BESCHREIBUNG >>$SLUGEXIF;
+				echo -n "-Description=" >>$SLUGEXIF;
+				echo $BESCHREIBUNG >>$SLUGEXIF;
+				echo -n "-imagedescription=" >>$SLUGEXIF;
+				echo $BESCHREIBUNG >>$SLUGEXIF;
+				echo "" >>$SLUGEXIF;
+
+#-DateTimeOriginal=2015:11:10 00:00
+				echo -n "-DateTimeOriginal=" >>$SLUGEXIF;
+				echo $ERSTELLT_AM >>$SLUGEXIF;
+				echo "" >>$SLUGEXIF;
+
+			echo "Exif-Datei erzeugt.";
+			echo "";
+			exit;
+			else
+				echo "slug-Datei existiert nicht.";
+				echo "Nix gemacht.";
+				echo "";
+				exit;
+			fi
+		fi
+		exit;
 		echo "";;
 
 
