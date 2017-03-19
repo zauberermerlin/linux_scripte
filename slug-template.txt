@@ -21,10 +21,11 @@ RELEASE="00:00";
 #ERSTELLT_AM="";
 TITEL="Don't touch her 3";
 # Mehrere mittels ; (Semikolon) trennen
-ACTRESS="Kayla Kayden";
-ACTOR="Charles Dera";
+ACTRESS="";
+ACTOR="";
 STUDIO="Brazzers";
-ALBUM="Brazzers Extra";
+# Erster Buchstabe gleich Grossbuchstabe
+ALBUM="Real Wife";
 SERIE="Dont touch her";
 PART="1";
 BILDER="j";
