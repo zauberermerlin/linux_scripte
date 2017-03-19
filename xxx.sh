@@ -73,6 +73,15 @@ LAUFZEIT_ENDE=$(date +%s);
 # Parameter: -checkupdate
 #############################################################
 
+SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
+SLUGTXT=$SLUG".txt";
+SLUGEXIF=$SLUG".exif";
+
+STAMM_BRAZ_1="http://static.brazzers.com/scenes/";
+STAMM_BRAZ_2="/preview/img";
+
+
+
 #############################################################
 # Funktionen definieren
 # muessen vor dem Aufruf definiert werden
@@ -94,7 +103,7 @@ echo "";
 echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
 echo "";
 
-echo "-brazdown: Bilder downloaden aufgrund der Einträge in der 'slug.txt' Datei";
+echo "-braz: Bilder downloaden aufgrund der Einträge in der 'slug.txt' Datei";
 echo "";
 }
 
@@ -115,12 +124,69 @@ function programme_dateien_check()
 echo "check";
 }
 
-SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
-SLUGTXT=$SLUG".txt";
-SLUGEXIF=$SLUG".exif";
+#der Name der Datei muss als Parameter mit übergeben werden = $1
+function datum_in_datei_schreiben()
+{
+#Überprüfung, ob genau ein Parameter übergeben wurde
+if [ $#=1 ]
+	then
+		echo "##############################" >>$1;
+		echo -n "# " >>$1;
+		date >>$1;
+		echo "##############################" >>$1;
+		echo "" >>$1;
+	else
+		echo "Fehler beim Aufruf der Funktion datum_in_datei_schreiben.";
+		echo "Zuviele oder zu wenige Parameter.";
+		echo "Genau ein Parameter ist notwendig: der Dateiname.";
+		echo "";
+		exit;
+fi
+}
 
-STAMM_BRAZ_1="http://static.brazzers.com/scenes/";
-STAMM_BRAZ_2="/preview/img";
+#Daten für exiftool schreiben
+function exiftool_daten_in_datei_schreiben()
+{
+if [ $#=1 ]
+	then
+		echo -n "-title=" >>$1;
+		echo $TITEL >>$1;
+			echo -n "-label=" >>$1;
+			echo $TITEL >>$1;
+			echo -n "-xpauthor=" >>$1;
+			echo $STUDIO >>$1;
+			echo -n "-keywords=" >>$1;
+			echo -n $ACTRESS >>$1;
+			echo -n "; " >>$1;
+			echo $ACTOR >>$1;
+			echo -n "-personinimage=" >>$1;
+			echo $ACTRESS >>$1;
+			echo "" >>$1;
+				
+			echo -n "-xpcomment=" >>$1;
+			echo $BESCHREIBUNG >>$1;
+			echo -n "-Caption-Abstract=" >>$1;
+			echo $BESCHREIBUNG >>$1;
+			echo -n "-Description=" >>$1;
+			echo $BESCHREIBUNG >>$1;
+			echo -n "-imagedescription=" >>$1;
+			echo $BESCHREIBUNG >>$1;
+			echo "" >>$1;
+
+#-DateTimeOriginal=2015:11:10 00:00
+		echo -n "-DateTimeOriginal=" >>$1;
+		echo $ERSTELLT_AM >>$1;
+		echo "" >>$1;
+	else
+		echo "Fehler beim Aufruf der Funktion exiftool_daten_in_datei_schreiben.";
+		echo "Zuviele oder zu wenige Parameter.";
+		echo "Genau ein Parameter ist notwendig: der Dateiname.";
+		echo "";
+		exit;
+fi
+
+}
+
 
 
 #############################################################
@@ -185,33 +251,6 @@ case $1 in
 		echo "";
 		exit;;
 
-	-brazdown)
-		echo "";
-		
-		source $2;
-		
-	stamm1="http://static.brazzers.com/scenes/";
-	stamm2="/preview/img";
-
-	#echo $stamm1;
-	#echo $stamm2;
-
-	for((i=1;i<10;i++)) do
-	    		    quelle=$stamm1$BRAZNR$stamm2"/0"$i".jpg";
-	    		    wget $quelle
-	    mv "0"$i".jpg" "0"$i"-"$SLUG".jpg";
-#	    mv "0"$i"-"$SLUG".jpg" "./"$SLUG
-	    echo $quelle;
-	done
-
-	for((i=0;i<6;i++)) do
-		    quelle=$stamm1$BRAZNR$stamm2"/1"$i".jpg";
-		    wget $quelle
-	    mv "1"$i".jpg" "1"$i"-"$2".jpg";
-#	    mv "1"$i"-"$2".jpg" "./"$2
-	    echo $quelle;
-	done		
-		exit;;
 
 	-t|--template)
 		# Ablauf
@@ -233,14 +272,16 @@ case $1 in
 			then
 				echo "Template wird kopiert/erstellt.";
 				cp /home/thomas/scripts/slug-template.txt ./$SLUGTXT;
-				echo "##############################" >>$SLUGTXT;
-				echo -n "# ";
-				date >>$SLUGTXT;
-				echo "";
-				echo "##############################" >>$SLUGTXT;
+
+				datum_in_datei_schreiben $SLUGTXT;
+#				echo "##############################" >>$SLUGTXT;
+#				echo -n "# ";
+#				date >>$SLUGTXT;
+#				echo "";
+#				echo "##############################" >>$SLUGTXT;
 				echo 'SLUG="'$SLUG'";' >>$SLUGTXT; 
 				echo "Fertig.";
-				echo "";
+#				echo "";
 			else
 				echo "Es existiert keine original Slug-Datei im Verzeichnis /home/thomas/scripts";
 				echo "mit dem Namen slug-template.txt.";
@@ -255,28 +296,18 @@ case $1 in
 		then
 			echo "Lade slug-Datei";
 			source $SLUGTXT;
-			
-	#stamm1="http://static.brazzers.com/scenes/";
-	#stamm2="/preview/img";
 
 	for((i=1;i<10;i++)) do
 		QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/0"$i".jpg";
 		wget $QUELLE
 		mv "0"$i".jpg" "0"$i"-"$SLUG".jpg";
-#	mv "0"$i"-"$SLUG".jpg" "./"$SLUG
-		echo $QUELLE;
 	done
 
 	for((i=0;i<6;i++)) do
 		QUELLE=$STAMM_BRAZ_1$BRAZNR$STAMM_BRAZ_2"/1"$i".jpg";
-#		    quelle=$stamm1$BRAZNR$stamm2"/1"$i".jpg";
-		wget $quelle
-		mv "1"$i".jpg" "1"$i"-"$2".jpg";
-		mv "1"$i"-"$2".jpg" "./"$2
-		echo $quelle;
+		wget $QUELLE
+		mv "1"$i".jpg" "1"$i"-"$SLUG".jpg";
 	done
-			
-			
 			
 			
 		fi
@@ -295,43 +326,15 @@ case $1 in
 			then
 			echo "Lade slug-Datei";
 			source $SLUGTXT;
-			echo "es geht los";	
-			
+
 			touch $SLUGEXIF;
-				echo "##############################" >>$SLUGEXIF;
-				echo -n "# " >>$SLUGEXIF;
-				date >>$SLUGEXIF;
-				echo "##############################" >>$SLUGEXIF;
-				echo "" >>$SLUGEXIF;
-				echo -n "-title=" >>$SLUGEXIF;
-				echo $TITEL >>$SLUGEXIF;
-				echo -n "-label=" >>$SLUGEXIF;
-				echo $TITEL >>$SLUGEXIF;
-				echo -n "-xpauthor=" >>$SLUGEXIF;
-				echo $STUDIO >>$SLUGEXIF;
-				echo -n "-keywords=" >>$SLUGEXIF;
-				echo -n $ACTRESS >>$SLUGEXIF;
-				echo -n "; " >>$SLUGEXIF;
-				echo $ACTOR >>$SLUGEXIF;
-				echo -n "-personinimage=" >>$SLUGEXIF;
-				echo $ACTRESS >>$SLUGEXIF;
-				echo "" >>$SLUGEXIF;
-				
-				echo -n "-xpcomment=" >>$SLUGEXIF;
-				echo $BESCHREIBUNG >>$SLUGEXIF;
-				echo -n "-Caption-Abstract=" >>$SLUGEXIF;
-				echo $BESCHREIBUNG >>$SLUGEXIF;
-				echo -n "-Description=" >>$SLUGEXIF;
-				echo $BESCHREIBUNG >>$SLUGEXIF;
-				echo -n "-imagedescription=" >>$SLUGEXIF;
-				echo $BESCHREIBUNG >>$SLUGEXIF;
-				echo "" >>$SLUGEXIF;
-
-#-DateTimeOriginal=2015:11:10 00:00
-				echo -n "-DateTimeOriginal=" >>$SLUGEXIF;
-				echo $ERSTELLT_AM >>$SLUGEXIF;
-				echo "" >>$SLUGEXIF;
-
+			datum_in_datei_schreiben $SLUGEXIF;
+			
+			echo "# exiftool -overwrite_original -@ slug.exif bilder.jpg" >>$SLUGEXIF;
+			echo "" >>$SLUGEXIF;
+			
+			exiftool_daten_in_datei_schreiben $SLUGEXIF;
+			
 			echo "Exif-Datei erzeugt.";
 			echo "";
 			exit;
@@ -342,13 +345,25 @@ case $1 in
 				exit;
 			fi
 		fi
-		exit;
-		echo "";;
+		exit;;
 
 
 	-exifschreiben)
-		echo "";
-		echo "";;
+		if [ -f $SLUGEXIF ]
+		then
+			for i in *.jpg
+				do
+					exiftool -overwrite_original -@ $SLUGEXIF $i;
+					echo "Exifdaten in" $i "geschrieben.";
+			done;
+		else
+			echo "Keine slug-Datei vorhanden.";
+			echo "Nix gemacht.";
+			echo "";
+			exit;
+		fi
+		exit;;
+
 
 	*)
 		echo "";
