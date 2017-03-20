@@ -14,7 +14,8 @@ VERSION="0.1";
 #SLUG wird maschinell geschrieben
 #
 BRAZNR="10497";
-NA="NaughtyAmerica";
+#Link des ersten Bildes
+NA="";
 # Datum-Format: yyyy:mm:dd hh:mm
 # Datum-Format: 2017:03:10 00:00
 RELEASE="00:00";
@@ -24,6 +25,7 @@ TITEL="Don't touch her 3";
 ACTRESS="";
 ACTOR="";
 STUDIO="Brazzers";
+#STUDIO="NaughtyAmerica";
 # Erster Buchstabe gleich Grossbuchstabe
 ALBUM="Real Wife";
 SERIE="Dont touch her";
@@ -34,5 +36,5 @@ REMASTERED="n";
 VR="n";
 FIRST="n";
 FIRSTNAME="";
-BESCHREIBUNG="Charles";
+BESCHREIBUNG="";
 

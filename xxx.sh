@@ -74,14 +74,19 @@ LAUFZEIT_ENDE=$(date +%s);
 #############################################################
 
 SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
-SLUGTXT=$SLUG".txt";
+SLUGTXT=$SLUG".slug";
 SLUGEXIF=$SLUG".exif";
 
 STAMM_BRAZ_1="http://static.brazzers.com/scenes/";
 STAMM_BRAZ_2="/preview/img";
 
-ANZAHL_ZEILEN=$(wc -l /home/thomas/scripts/slug-template.txt | cut -c 1-2);
+ANZAHL_ZEILEN=$(wc -l /home/thomas/scripts/template.slug | cut -c 1-2);
 
+LOG_STATUS="n";
+CHECK_STATUS="n";
+WA_STATUS="n";
+
+PROGRAMM_VERSION=$VERSION;
 
 #############################################################
 # Funktionen definieren
@@ -103,7 +108,14 @@ echo "-exifdatei: Exif-Datei 'slug.exif' wird erzeugt";
 echo "";
 echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
 echo "";
-echo "-braz: Bilder downloaden aufgrund der Einträge in der 'slug.txt' Datei";
+echo "-braz: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
+echo "";
+echo "-na: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
+echo "";
+echo "-install: Einmaliger Aufruf zur Programm-Installation.";
+echo "        " $0 "wird als User 'root' nach /usr/sbin/ kopiert und mit x-Rechten versehen.";
+echo "";
+echo "-remove: Programm wird deinstalliert. 'root'-Rechte werden dazu abgefragt.";
 echo "";
 }
 
@@ -188,6 +200,45 @@ fi
 }
 
 
+#Bilder von NaughtyAmerica.com downloaden
+function na()
+{
+	#Beispiel für einen Wert aus template.slug
+	#http://images4.naughtycdn.com/datana/upload/source/2cst/carmelladylanjerryrem/carmelladylanjerryremvert_scene_huge.jpg
+		
+	STAMM_NA=$(echo $1 | cut -d/ -f9);
+	BILD1=$(echo $STAMM_NA | cut -d_ -f1);
+
+	#je nach übergebenem Parameter sind die letzten 3 oder letzten 4 Zeichen zu entfernen
+	#zu unterscheiden am Ende mit: entweder *huge.jpg oder img?.jpg
+		
+	ANZAHL=$(echo ${#STAMM_NA});
+	KRITERIUM=$(echo ${STAMM_NA:$((ANZAHL-8)):8});
+		
+	[ "$1" = "save" ]
+		
+	if [ "$KRITERIUM" != "huge.jpg" ]
+	then
+		BILD=$(echo ${BILD1::-3});
+	else
+		BILD=$(echo ${BILD1::-4});
+	fi
+		
+	PFAD=$(echo $1 | cut -d/ -f1-8);
+	BIG="vert_scene_huge.jpg";
+	PIC="hor_big_img";
+
+	wget $PFAD"/"$BILD$BIG;
+	mv $BILD$BIG 05-$SLUG.jpg;
+
+	for((i=1;i<5;i++));
+	do
+		wget $PFAD"/"$BILD$PIC$i".jpg";
+		mv $BILD$PIC$i".jpg" "0"$i-$SLUG.jpg;
+	done;
+
+}
+
 
 #############################################################
 # Auswertung der Parameter
@@ -212,14 +263,12 @@ fi
 
 
 #08.03.17
-# Parameter: -t oder --template_erzeugen (ggfls. in Verbindung mit -r und/oder -check)
 # Parameter: -tag_schreiben (ggfls. in Verbindung mit -r und/oder -check)
 # Parameter: -tag_datei (ggfls. in Verbindung mit -r und/oder -check)
 # Parameter: -info
 # Parameter: -check (ggfls. in Verbindung mit -r oder -update)
 # Parameter: -log: log_jjjjmmtt-hhmm.txt-Datei im aktuellen Verzeichnis erzeugen
 # Parameter: -v oder --version
-# Parameter: -brazdown
 # -ansible: Erstellung bzw. Anzeige des Ansible Playbooks
 # -install: kopieren und verlinken des Scripts, damit direkter Zugriff erfolgt (ggfls. mit -check)
 # -remove: den mit -install durchgefuehrten Vorgang rueckgaengig machen
@@ -234,16 +283,13 @@ fi
 #
 
 
-
-LOG_STATUS="n";
-CHECK_STATUS="n";
-WA_STATUS="n";
-
 case $1 in
 	-h|--h|-help|--help)
 		hilfe_text;
 		echo "";
 		exit;;
+		
+		
 	-v|--version)
 		echo "";
 		echo "Programm:" $0;
@@ -258,38 +304,39 @@ case $1 in
 		# (2) Überprüfen, ob es im aktuellen Verzeichnis die Datei stammverzeichnis.txt gibt
 		# (3) Überprüfen, ob es im Verzeichnis /home/thomas/scripts/ die Datei template_xxx.txt gibt
 		# (4) Leere Datei stammverzeichnis.txt im aktuellen Verzeichnis erstellen
-		# (5) Kopf aus slug-template.txt in Datei übertragen
+		# (5) Kopf aus template.slug in Datei übertragen
 		# (6) Zeitstempel in Datei einfügen
 		# (7) Datenfeld SLUG erzeugen und befüllen
-		# (8) Datenfelder aus slug-template.txt übertragen
+		# (8) Datenfelder aus template.slug übertragen
 
-		SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
-		SLUGTXT=$SLUG".txt";
+#		SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
+#		SLUGTXT=$SLUG".txt";
 
 		if [ -f $SLUGTXT ]
 		then
 			echo "Slug-Datei:" $SLUGTXT "ist bereits vorhanden";
 			echo "";
 		else
-			if [ -f /home/thomas/scripts/slug-template.txt ]
+			if [ -f /home/thomas/scripts/template.slug ]
 			then
 				echo "Template wird kopiert/erstellt.";
 				touch $SLUGTXT;
 				datum_in_datei_schreiben $SLUGTXT;
-				head -n 15 /home/thomas/scripts/slug-template.txt >>$SLUGTXT;
+				head -n 15 /home/thomas/scripts/template.slug >>$SLUGTXT;
 				echo 'SLUG="'$SLUG'";' >>$SLUGTXT; 
 
-				tail -n $((ANZAHL_ZEILEN-15)) /home/thomas/scripts/slug-template.txt >>$SLUGTXT;
+				tail -n $((ANZAHL_ZEILEN-15)) /home/thomas/scripts/template.slug >>$SLUGTXT;
 
 				echo "Fertig.";
-#				echo "";
+				echo "";
 			else
 				echo "Es existiert keine original Slug-Datei im Verzeichnis /home/thomas/scripts";
-				echo "mit dem Namen slug-template.txt.";
+				echo "mit dem Namen template.slug.";
 				echo "";
 			fi
 		fi
 		exit;;
+
 
 	-braz)
 		if [ -f $SLUGTXT ]
@@ -308,6 +355,17 @@ case $1 in
 					wget $QUELLE
 					mv "1"$i".jpg" "1"$i"-"$SLUG".jpg";
 				done
+		fi
+		exit;;
+
+
+	-na)
+		if [ -f $SLUGTXT ]
+		then
+			echo "Lade slug-Datei";
+			source $SLUGTXT;
+
+			na $NA;
 		fi
 		exit;;
 
@@ -360,9 +418,24 @@ case $1 in
 			exit;
 		fi
 		exit;;
+		
+		
+	-install)
+	echo "Installiere: " $0 " nach /usr/sbin als User root";
+	sudo cp $0 /usr/sbin;
+	sudo chmod a+rx /usr/sbin/$0;
+	echo;
+	exit;;
+	
 
+	-remove)
+	echo "Entferne " $0 " aus dem Verzeichnis /usr/sbin";
+	echo "dazu sind root - Rechte erforderlich";
+	sudo rm /usr/sbin/$0;
+	echo;
+	exit;;
 
 	*)
-		echo "";
+		echo "Da ist wohl ein Fehler passiert :(";
 		echo "";;
 esac

@@ -57,6 +57,7 @@ case "$1" in
    -install)
 	echo "Installiere: " $0 " nach /usr/sbin als User root";
 	sudo cp $0 /usr/sbin;
+	sudo chmod a+rx /usr/sbin/$0;
 # Überprüfung, ob erfolgreich
 	echo;;
 
