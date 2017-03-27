@@ -146,18 +146,28 @@ function hilfe_text()
 
 #
 # Festlegung der Umrechnungs-Funktion
-#
+# Der Funktion muss genau ein Parameter mitgegeben werden
 function umrechnen_funktion () {
+echo $#;
+		for i in $1
+	do
+#		echo "gefundene Datei:" $i
+		PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
 
-# The function refers to passed arguments by their position (not by name), that is $1, $2, and so forth.
-# $0 is the name of the script itself.
+		MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
+		MP4_VORHANDEN=$PFAD"/*.mp4";
+		MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
 
-	echo "Funktionsaufruf:" $0;
-	echo "Parameter 1:" $1;
-	
-# für die letzten 4 Zeichen	
-#	tail -c5;
-	
+		if [ -f $MP2_VORHANDEN ]
+		then
+			if [ ! -f $MP4_VORHANDEN ]
+			then
+				echo "Umrechnung erfolgt:" $MP2_VORHANDEN "+" $i "->" $MP4_NEU;
+				#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
+				#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
+			fi
+		fi
+	done		
 }
 
 
@@ -195,35 +205,45 @@ case  $1 in
 		#echo "rcheck";
 		#gefunden wird die Datei mit dem kompletten Pfad
 		GEFUNDENE_DATEIEN=$(find -name '*.m2v');
-		
-		for i in $GEFUNDENE_DATEIEN
-		do
-			echo "gefundene Datei:" $i
-			PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
+		echo $GEFUNDENE_DATEIEN;
+		if [ ! -n "$GEFUNDENE_DATEIEN" ]
+		then
+			echo "Es wurden keine umzurechnenden Dateien gefunden.";
+			echo "";
+			exit;
+		fi
+
+		umrechnen_funktion $GEFUNDENE_DATEIEN;
+
+
+#		for i in $GEFUNDENE_DATEIEN
+#		do
+#			echo "gefundene Datei:" $i
+#			PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
 			#DATEI_OHNE_ENDUNG=$(echo $i | rev | cut -d/ -f1 | cut -c5- | rev);
 			#echo "Pfad:" $PFAD;
 			#echo "Dateiname ohne Endung:" $DATEI_OHNE_ENDUNG;
 
-			MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
+#			MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
 			#echo "mp2:" $MP2_VORHANDEN;
-	
-			MP4_VORHANDEN=$PFAD"/*.mp4";
+
+#			MP4_VORHANDEN=$PFAD"/*.mp4";
 			#echo $MP4_VORHANDEN;
 			
-			MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
+#			MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
 			#echo $MP4_NEU;
 
-			if [ -f $MP2_VORHANDEN ]
-			then
-				if [ ! -f $MP4_VORHANDEN ]
-				then
-					echo "Umrechnung erfolgt:" $MP2_VORHANDEN "+" $i "->" $MP4_NEU;
+#			if [ -f $MP2_VORHANDEN ]
+#			then
+#				if [ ! -f $MP4_VORHANDEN ]
+#				then
+#					echo "Umrechnung erfolgt:" $MP2_VORHANDEN "+" $i "->" $MP4_NEU;
 					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
 					#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
-				fi
-			fi
+#				fi
+#			fi
+#		done		
 
-		done		
 		exit;
 		;;
 		
