@@ -25,11 +25,6 @@ VERSIONSTEXT="08.03.2007";
 #in den Namen der Video-Datei mit der Endung _info.txt
 
 
-# offen: Mai 2016
-#auch mit einem Parameter, wobei der erste "-r" für rekursiv ist
-#alle 'gefundenen' Dateien werden umgewandelt
-
-
 # offen 24.12.16
 # -1
 # -2
@@ -59,36 +54,39 @@ datum=`date`;
 #datum=`date "+%y%m%d_%H%M%S"`
 #echo $datum
 
+LOG="n";
+RCHECK="n";
+WA="n";
 
 
+########################
+# Variablen auslesen
+########################
 
-#
-# Festlegung der Umrechnungs-Funktion
-#
-
-function umrechnen_funktion () {
-
-# The function refers to passed arguments by their position (not by name), that is $1, $2, and so forth.
-# $0 is the name of the script itself.
-
-	echo "Funktionsaufruf:" $0;
-	echo "Parameter 1:" $1;
+for i in $@
+do
+	if [ $i = "-log" ]
+		then
+			LOG="j";
+	fi
 	
-# für die letzten 4 Zeichen	
-#	tail -c5;
+	if [ $i = "-rcheck" ]
+		then
+			RCHECK="j";
+	fi
 	
-}
+	if [ $i = "-wa" ]
+		then
+			WA="j";
+	fi
+done
 
+#echo $LOG;
+#echo $RCHECK;
+#echo $WA;
 
-if test $# = 0
-then
-	echo "nur der Aufruf";
-fi
-
-if test $# = 1
-	then
-		case  $1 in
-		-h|--help)
+function hilfe_text()
+{
 			echo "---------------------";
 			echo "hier kommt die Hife";
 			echo "---------------------";
@@ -142,7 +140,35 @@ if test $# = 1
 			echo "";
 			echo ""; 
 			echo "";
+		
+}
 
+
+#
+# Festlegung der Umrechnungs-Funktion
+#
+function umrechnen_funktion () {
+
+# The function refers to passed arguments by their position (not by name), that is $1, $2, and so forth.
+# $0 is the name of the script itself.
+
+	echo "Funktionsaufruf:" $0;
+	echo "Parameter 1:" $1;
+	
+# für die letzten 4 Zeichen	
+#	tail -c5;
+	
+}
+
+
+if test $# = 0
+then
+	echo "nur der Aufruf";
+fi
+
+case  $1 in
+		-h|--help)
+			hilfe_text;
 			;;
 		
 		-i)
@@ -150,7 +176,6 @@ if test $# = 1
 			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";
 			sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin;
 			;;
-		
 		
 		-remove)
 			echo "Link wird entfernt";	
@@ -160,22 +185,50 @@ if test $# = 1
 			;;
 		
 		
-		-r)
-				echo "r";
-				;;
+	-r)
+		echo "r";
+		GEFUNDENE_DATEIEN=$(find -name '*.m2v');
+	
+		;;
 
-		-rcheck)
-		if test $# -gt 2
+	-rcheck)
+		#echo "rcheck";
+		#gefunden wird die Datei mit dem kompletten Pfad
+		GEFUNDENE_DATEIEN=$(find -name '*.m2v');
+		
+		for i in $GEFUNDENE_DATEIEN
+		do
+			echo "gefundene Datei:" $i
+			PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
+			#DATEI_OHNE_ENDUNG=$(echo $i | rev | cut -d/ -f1 | cut -c5- | rev);
+			#echo "Pfad:" $PFAD;
+			#echo "Dateiname ohne Endung:" $DATEI_OHNE_ENDUNG;
+
+			MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
+			#echo "mp2:" $MP2_VORHANDEN;
+	
+			MP4_VORHANDEN=$PFAD"/*.mp4";
+			#echo $MP4_VORHANDEN;
+			
+			MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
+			#echo $MP4_NEU;
+
+			if [ -f $MP2_VORHANDEN ]
 			then
-				echo "Fehlerhafter Aufruf des Parameters -r".
-				echo "Keine weiteren Parameter beim Aufruf vom -r möglich";
-				echo
-		fi
-		
-				;;
+				if [ ! -f $MP4_VORHANDEN ]
+				then
+					echo "Umrechnung erfolgt:" $MP2_VORHANDEN "+" $i "->" $MP4_NEU;
+					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
+					#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
+				fi
+			fi
 
+		done		
+		exit;
+		;;
 		
-		-s)
+	
+	-s)
 				echo "s";
 				;;	
 			
@@ -237,14 +290,14 @@ if test $# = 1
 
 			;;
 		esac;
-fi
+
 
 if test $# = 3
 	then
 	case $1 in 
 	
 	-s)
-		#das folgende m steht für Minuten
+		#das folgende m steht für Minuten, s für Sekunden
 		sleep $2.s;
 		;;
 	
@@ -259,14 +312,6 @@ if test $# = 3
 	esac;
 
 	
-fi
-
-if test $# -gt 3
-	then
-		echo
-		echo "Zu viele Parameter!!";
-		echo "Mehr als 3";
-		echo
 fi
 
 
