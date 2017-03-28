@@ -149,7 +149,17 @@ function umrechnen() {
 
 		MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
 		MP4_VORHANDEN=$PFAD"/*.mp4";
+		
+		# Dateiname ist der Verzeichnisname
 		MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
+		# wenn der Verzeichnispfad mit 201 beginnt, dann soll der Dateiname
+		# der Verzeichnisname eine Ebene höher sein
+		VERGLEICH=$(echo $MP4_NEU | cut -c1-3);
+		if [ $VERGLEICH = "201" ]
+		then
+			MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f2 | rev)".mp4";
+			echo "Geänderter Dateiname: $MP4_NEU";
+		fi
 
 		if [ -f $MP2_VORHANDEN ]
 		then
@@ -266,7 +276,7 @@ case  $1 in
 			
 
 	*)
-			# gibt es die Datei mit der Endung .flv oder nur den Uebergabe-String
+	# gibt es die Datei mit der Endung .flv oder nur den Uebergabe-String
 			if test -f $1 || test -f $1.flv
 				then
 					if test -f $1
