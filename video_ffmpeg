@@ -103,24 +103,11 @@ function hilfe_text()
 			echo "";
 			echo "Aufruf mit dem Schalter -s";
 			echo "";
+			echo "Aufruf mit dem Schalter -r | -rcheck | -wa | -log";
 			echo "";
-			echo "Aufruf mit dem Schalter -r";
+			echo "Aufruf mit dem Schalter -1 | -2";
 			echo "";
-			echo "";
-			echo "Aufruf mit dem Schalter -rcheck";
-			echo "";
-			echo "";
-			echo "Aufruf mit dem Schalter -wa";
-			echo "";
-			echo "";
-			echo "Aufruf mit dem Schalter -1";
-			echo "";
-			echo "";
-			echo "Aufruf mit dem Schalter -2";
-			echo "";
-			echo "";
-			
-			
+
 			echo "Aufruf mit einem Parameter, wobei dieser nur der Dateiname ohne Endung ist.";
 			echo "Das Script erkennt anhand der Datei-Endung den Typ der Datei und";
 			echo "je nach Endung wird eine Aktion ausgeführt";
@@ -144,12 +131,18 @@ function hilfe_text()
 }
 
 
-#
-# Festlegung der Umrechnungs-Funktion
-# Der Funktion muss genau ein Parameter mitgegeben werden
-function umrechnen_funktion () {
-echo $#;
-		for i in $1
+function umrechnen() {
+	GEFUNDENE_DATEIEN=$(find -name '*.m2v');
+	
+	if [ ! -n "$GEFUNDENE_DATEIEN" ]
+	then
+		LOG_TEXT="'Es wurden keine umzurechnenden Dateien gefunden.'";
+		log_schreiben $LOG_TEXT;
+		echo $LOG_TEXT;
+		exit;
+	fi
+	
+	for i in $GEFUNDENE_DATEIEN
 	do
 #		echo "gefundene Datei:" $i
 		PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
@@ -162,18 +155,74 @@ echo $#;
 		then
 			if [ ! -f $MP4_VORHANDEN ]
 			then
-				echo "Umrechnung erfolgt:" $MP2_VORHANDEN "+" $i "->" $MP4_NEU;
-				#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
-				#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
+				#TEXT muss ein String ohne Leerzeichen sein
+				TEXT="Umrechnung:"$MP2_VORHANDEN"_+_"$i"->"$MP4_NEU;
+				if [ $RCHECK = "n" ]
+				then
+					echo $TEXT;
+					wa_versenden "Starte_Umrechnung:"$MP4_NEU;
+					log_schreiben $TEXT;
+					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
+					#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
+					log_schreiben "Umrechnung_beendet";
+					wa_versenden "Umrechnung:"$MP4_NEU"_beendet";
+				fi
 			fi
 		fi
 	done		
+		
+}
+
+
+# Funktion zum Schreiben eines Log-Eintrags
+# Aufruf mit einem oder keinem Parameter
+# Parameter enthält den Text für den Log-Eintrag
+# wenn der Parameter # lautet, dann wird nur # ohne Zeitstempel geschrieben
+# geschrieben wird in die Dateo log.txt im aufrufenden Verzeichnis
+# jeder Eintrag beginnt mit dem Zeitstempel oder mit #
+# Zeitstempel: yyyy-mm-dd hh:hh:
+function log_schreiben() {
+
+#echo "Log-Status: " $LOG;
+#echo "Übergebener Text:" $1;
+
+if [ $LOG = "j" ]
+then
+	ZEITSTEMPEL=$(date "+%Y-%m-%d %H:%M");
+	#echo "Anzahl Parameter: " $#;
+	if [ $# = "0" ]
+	then
+		echo $ZEITSTEMPEL >>log.txt
+	fi
+	if [ $# = "1" ]
+	then
+		if [ $1 = "#" ]
+		then
+			echo "#" >>log.txt;
+		else
+			echo -n $ZEITSTEMPEL >>log.txt;
+			echo " " $1  >>log.txt;
+		fi
+	fi
+fi
+}
+
+# Funktion zum Versenden einer Whatsapp-Nachricht
+# Aufruf mit einem Parameter notwendig
+# Parameter enthält den zu versendeten Text
+function wa_versenden() {
+if [ $WA = "j" ]
+then
+	wa.sh $1;
+#	echo "Whatsapp wurde versendet";
+fi
 }
 
 
 if test $# = 0
 then
-	echo "nur der Aufruf";
+	hilfe_text;
+	exit;
 fi
 
 case  $1 in
@@ -184,75 +233,39 @@ case  $1 in
 		-i)
 			echo " Legt als Superuser einen Link in /usr/bin an";
 			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";
-			sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin;
+			sudo ln -s /home/thomas/scripte/test_ffmpeg /usr/bin;
 			;;
-		
 		-remove)
 			echo "Link wird entfernt";	
 			echo " -> sudo rm /usr/bin/video_ffmpeg";
-			sudo rm /usr/bin/video_ffmpeg;
+			sudo rm /usr/bin/test_ffmpeg;
 #			echo $USER;		
 			;;
-		
-		
 	-r)
-		echo "r";
-		GEFUNDENE_DATEIEN=$(find -name '*.m2v');
-	
+		#echo "r";
+		log_schreiben "#";
+		log_schreiben "Anlage_Start_des_Loggings";
+		# start
+		umrechnen;
+		exit
 		;;
 
 	-rcheck)
 		#echo "rcheck";
-		#gefunden wird die Datei mit dem kompletten Pfad
-		GEFUNDENE_DATEIEN=$(find -name '*.m2v');
-		echo $GEFUNDENE_DATEIEN;
-		if [ ! -n "$GEFUNDENE_DATEIEN" ]
-		then
-			echo "Es wurden keine umzurechnenden Dateien gefunden.";
-			echo "";
-			exit;
-		fi
-
-		umrechnen_funktion $GEFUNDENE_DATEIEN;
-
-
-#		for i in $GEFUNDENE_DATEIEN
-#		do
-#			echo "gefundene Datei:" $i
-#			PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
-			#DATEI_OHNE_ENDUNG=$(echo $i | rev | cut -d/ -f1 | cut -c5- | rev);
-			#echo "Pfad:" $PFAD;
-			#echo "Dateiname ohne Endung:" $DATEI_OHNE_ENDUNG;
-
-#			MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
-			#echo "mp2:" $MP2_VORHANDEN;
-
-#			MP4_VORHANDEN=$PFAD"/*.mp4";
-			#echo $MP4_VORHANDEN;
-			
-#			MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
-			#echo $MP4_NEU;
-
-#			if [ -f $MP2_VORHANDEN ]
-#			then
-#				if [ ! -f $MP4_VORHANDEN ]
-#				then
-#					echo "Umrechnung erfolgt:" $MP2_VORHANDEN "+" $i "->" $MP4_NEU;
-					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
-					#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
-#				fi
-#			fi
-#		done		
-
+		LOG="n";
+		WA="n";
+		RCHECK="n";
+		# start
+		umrechnen;
 		exit;
 		;;
-		
 	
 	-s)
-				echo "s";
-				;;	
+		echo "s";
+		;;	
 			
-		*)
+
+	*)
 			# gibt es die Datei mit der Endung .flv oder nur den Uebergabe-String
 			if test -f $1 || test -f $1.flv
 				then
@@ -324,7 +337,7 @@ if test $# = 3
 	*)
 		echo "Fehler beim Aufruf mit 3 Parametern";
 		# Funktionsaufruf
-		umrechnen_funktion wert1;	
+#		umrechnen_funktion wert1;	
 		
 		;;
 	
