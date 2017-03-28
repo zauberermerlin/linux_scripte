@@ -163,6 +163,7 @@ function umrechnen() {
 
 		if [ -f $MP2_VORHANDEN ]
 		then
+			# hier gibt es noch einen Fehler, wenn mehr als eine *.mp4-Datei im Verzeichnis vorhanden sind
 			if [ ! -f $MP4_VORHANDEN ]
 			then
 				#TEXT muss ein String ohne Leerzeichen sein
@@ -173,7 +174,7 @@ function umrechnen() {
 					wa_versenden "Starte_Umrechnung:"$MP4_NEU;
 					log_schreiben $TEXT;
 					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
-					#ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
+					ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
 					log_schreiben "Umrechnung_beendet";
 					wa_versenden "Umrechnung:"$MP4_NEU"_beendet";
 				fi
@@ -318,19 +319,16 @@ case  $1 in
 					echo "Keine avi-Datei";
 			fi
 
-
-
 			if test -f 00001.m2v
 				then
 				if test -f 00001.mp2
 					then
 					#Dateien sind vorhanden
+					wa_versenden "Start_Umrechnung:_"$i".mp4";
 					ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
 
 				fi
 			fi
-
-
 			;;
 		esac;
 
