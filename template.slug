@@ -9,28 +9,36 @@
 # Die Datei wird mit dem Linux-Konsole-Befehle 'source' ausgelesen und ausgewertet
 #
 
-VERSION="0.1";
+VERSION="0.2";
 
 #SLUG wird maschinell geschrieben
 #
-BRAZNR="10497";
+TITEL="Don't";
+BRAZNR="9";
 #Link des ersten Bildes
 NA="";
 # Datum-Format: yyyy:mm:dd hh:mm
 # Datum-Format: 2017:03:10 00:00
 RELEASE="00:00";
 #ERSTELLT_AM="";
-TITEL="Don't touch her 3";
-# Mehrere mittels ; (Semikolon) trennen
+#Mehrere mittels ; (Semikolon) trennen
 ACTRESS="";
 ACTOR="";
 STUDIO="Brazzers";
 #STUDIO="NaughtyAmerica";
-# Erster Buchstabe gleich Grossbuchstabe
-ALBUM="Real Wife";
-SERIE="Dont touch her";
+#Erster Buchstabe gleich Grossbuchstabe
+ALBUM="";
+#ALBUM="Real Wife Stories";
+#ALBUM="Doctor Adventures";
+#ALBUM="Big Tits At Work";
+#ALBUM="Big Tits At School";
+#ALBUM="Big Wet Butts";
+#ALBUM="Brazzers Exxtra";
+SERIE="";
+#SERIE="Dont touch her";
 PART="1";
 BILDER="j";
+PORTRAETBILD="1";
 THUMBS="n";
 REMASTERED="n";
 VR="n";
