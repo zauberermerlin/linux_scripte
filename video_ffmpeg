@@ -224,7 +224,7 @@ then
 			echo "#" >>$LOG_DATEI;
 		else
 			echo -n $ZEITSTEMPEL >>$LOG_DATEI;
-			echo " " $1  >>log.txt;
+			echo " " $1  >>$LOG_DATEI;
 		fi
 	fi
 fi
