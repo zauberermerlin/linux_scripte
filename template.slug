@@ -14,6 +14,8 @@ VERSION="0.2";
 #SLUG wird maschinell geschrieben
 #
 TITEL="Don't";
+TITELBILD="";
+BESCHREIBUNG="";
 BRAZNR="9";
 #Link des ersten Bildes
 NA="";
@@ -44,5 +46,5 @@ REMASTERED="n";
 VR="n";
 FIRST="n";
 FIRSTNAME="";
-BESCHREIBUNG="";
+STERNE="";
 
