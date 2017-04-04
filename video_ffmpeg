@@ -186,7 +186,7 @@ function umrechnen() {
 					# wa_versenden "Starte_Umrechnung:"$MP4_NEU;
 					log_schreiben $TEXT;
 					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
-					ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
+					ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_NEU;
 					log_schreiben "Umrechnung_beendet";
 					wa_versenden "Umrechnung:"$MP4_NEU"_beendet";
 				fi
