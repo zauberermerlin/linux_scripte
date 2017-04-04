@@ -148,7 +148,7 @@ function umrechnen() {
 	
 	for i in $GEFUNDENE_DATEIEN
 	do
-		echo "gefundene Datei:" $i
+		#echo "gefundene Datei:" $i
 		PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
 
 		MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
@@ -178,6 +178,7 @@ function umrechnen() {
 			then
 				#TEXT muss ein String ohne Leerzeichen sein
 				TEXT="Umrechnung:"$MP2_VORHANDEN"_+_"$i"->"$MP4_NEU;
+				echo -e "\033[0;31m Umrechnung: \033[0m"$MP4_NEU;
 				if [ $RCHECK = "n" ]
 				then
 					echo -e "\033[0;31m Umrechnung: \033[0m"$MP4_NEU;
