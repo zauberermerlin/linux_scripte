@@ -178,8 +178,9 @@ function umrechnen() {
 				TEXT="Umrechnung:"$MP2_VORHANDEN"_+_"$i"->"$MP4_NEU;
 				if [ $RCHECK = "n" ]
 				then
-					echo $TEXT;
-					wa_versenden "Starte_Umrechnung:"$MP4_NEU;
+					echo -e "\033[0;31m Umrechnung: \033[0m"$MP4_NEU;
+					wa_versenden "Starte_Umrechnung:";
+					# wa_versenden "Starte_Umrechnung:"$MP4_NEU;
 					log_schreiben $TEXT;
 					#ffmpeg -i 00001.mp2 -i 00001.m2v -acodec libvo_aacenc -vcodec libx264 $1.mp4
 					ffmpeg -i $MP2_VORHANDEN -i $i -acodec libvo_aacenc -vcodec libx264 $MP4_VORHANDEN;
@@ -273,7 +274,7 @@ case  $1 in
 		#echo "rcheck";
 		LOG="n";
 		WA="n";
-		RCHECK="n";
+		RCHECK="j";
 		# start
 		umrechnen;
 		exit;
