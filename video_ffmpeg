@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VERSION="0.1";
-VERSIONSTEXT="28.03.2017";
+VERSION="0.2";
+VERSIONSTEXT="04.04.2017";
 
 #Anzahl der Parameter auslesen
 #bei einem Parameter:
@@ -50,9 +50,10 @@ VERSIONSTEXT="28.03.2017";
 
 #offen: Zeit/Dauer der Umrechnung
 
-datum=`date`;
-#datum=`date "+%y%m%d_%H%M%S"`
+#DATUM=`date`;
+#DATUM=`date "+%Y%m%d-%H%M%S"`
 #echo $datum
+LOG_DATEI="log-"$DATUM".txt";
 
 LOG="n";
 RCHECK="n";
@@ -199,19 +200,19 @@ function log_schreiben() {
 
 if [ $LOG = "j" ]
 then
-	ZEITSTEMPEL=$(date "+%Y-%m-%d %H:%M");
+	ZEITSTEMPEL=$(date "+%Y-%m-%d %H:%M:%S");
 	#echo "Anzahl Parameter: " $#;
 	if [ $# = "0" ]
 	then
-		echo $ZEITSTEMPEL >>log.txt
+		echo $ZEITSTEMPEL >>$LOG_DATEI;
 	fi
 	if [ $# = "1" ]
 	then
 		if [ $1 = "#" ]
 		then
-			echo "#" >>log.txt;
+			echo "#" >>$LOG_DATEI;
 		else
-			echo -n $ZEITSTEMPEL >>log.txt;
+			echo -n $ZEITSTEMPEL >>$LOG_DATEI;
 			echo " " $1  >>log.txt;
 		fi
 	fi
@@ -356,7 +357,7 @@ if test $# = 3
 fi
 
 
-echo $datum;
-date;
+#echo $datum;
+#date;
 
 
