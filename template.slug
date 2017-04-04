@@ -8,6 +8,11 @@
 #
 # Die Datei wird mit dem Linux-Konsole-Befehle 'source' ausgelesen und ausgewertet
 #
+#######################
+# Offizieller Pfad des Repos'
+# curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/template.slug >template.slug
+#######################
+
 
 VERSION="0.2";
 
