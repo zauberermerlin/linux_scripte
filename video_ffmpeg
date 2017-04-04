@@ -18,6 +18,8 @@ VERSIONSTEXT="04.04.2017";
 #
 #curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/video_ffmpeg >video_ffmpeg.sh
 #
+# sudo ln -s /home/thomas/scripts/video_ffmpeg.sh /usr/sbin
+#
 #######################
 
 #23-05-16
@@ -94,14 +96,14 @@ function hilfe_text()
 			echo "---------------------";
 			echo "";
 			echo $0 "Version:" $VERSION "vom" $VERSIONSTEXT;
-			echo "Aufruf mit dem Schalter -i";
+			echo "Aufruf mit dem Schalter -install";
 			echo " Legt als Superuser einen Link in /usr/bin an";
-			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";
+			echo " -> sudo ln -s /home/thomas/scripts/video_ffmpeg.sh /usr/sbin";
 			echo " -> die Datei selbst muss ausführbar, d.h. das Flag x besitzen";	
 			echo "";
 			echo "Aufruf mit dem Schalter -remove";
 			echo " Macht die mit -i durchgeführte Operation rückgängig (=Entfernung des Links)";
-			echo " -> sudo rm /usr/bin/video_ffmpeg";
+			echo " -> sudo rm /usr/sbin/video_ffmpeg.sh";
 			echo "";
 			echo "Aufruf mit dem Schalter -s";
 			echo "";
@@ -146,7 +148,7 @@ function umrechnen() {
 	
 	for i in $GEFUNDENE_DATEIEN
 	do
-#		echo "gefundene Datei:" $i
+		echo "gefundene Datei:" $i
 		PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
 
 		MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
@@ -248,37 +250,39 @@ fi
 case  $1 in
 		-h|--help)
 			hilfe_text;
-			;;
+			exit;;
 		
-		-i)
+		-v|--version
+			echo $0 "Version:" $VERSION "vom" $VERSIONSTEXT;
+			exit;;
+				
+		-install)
 			echo " Legt als Superuser einen Link in /usr/bin an";
 			echo " -> sudo ln -s /home/thomas/workspace/ShellScripte/video_ffmpeg /usr/bin";
-			sudo ln -s /home/thomas/scripte/test_ffmpeg /usr/bin;
+			sudo ln -s /home/thomas/scripts/video_ffmpeg.sh /usr/sbin;
 			;;
 		-remove)
 			echo "Link wird entfernt";	
 			echo " -> sudo rm /usr/bin/video_ffmpeg";
-			sudo rm /usr/bin/test_ffmpeg;
+			sudo rm /usr/sbin/video_ffmpeg.sh;
 #			echo $USER;		
 			;;
 	-r)
-		#echo "r";
+		echo "r";
 		log_schreiben "#";
 		log_schreiben "Anlage_Start_des_Loggings";
 		# start
 		umrechnen;
-		exit
-		;;
+		exit;;
 
 	-rcheck)
-		#echo "rcheck";
+		echo "rcheck";
 		LOG="n";
 		WA="n";
 		RCHECK="j";
 		# start
 		umrechnen;
-		exit;
-		;;
+		exit;;
 	
 	-s)
 		echo "s";
