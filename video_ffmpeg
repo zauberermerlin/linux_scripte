@@ -51,9 +51,10 @@ VERSIONSTEXT="04.04.2017";
 #offen: Zeit/Dauer der Umrechnung
 
 #DATUM=`date`;
-#DATUM=`date "+%Y%m%d-%H%M%S"`
+DATUM=`date "+%Y%m%d-%H%M%S"`
 #echo $datum
 LOG_DATEI="log-"$DATUM".txt";
+TMP_DATEI="tmp-ffmpeg.txt";
 
 LOG="n";
 RCHECK="n";
@@ -154,7 +155,13 @@ function umrechnen() {
 		# Dateiname ist der Verzeichnisname
 		MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f1 | rev)".mp4";
 		# wenn der Verzeichnispfad mit 201 beginnt, dann soll der Dateiname
+		# wenn der Verzeichnispfad mit .rec endet, dann soll der Dateiname
 		# der Verzeichnisname eine Ebene höher sein
+		# der Dateiname eine Ebene hoeher muss dann noch im String
+		#	in Kleinbuchstaben
+		#	ohne Leerzeichen
+		# geaendert werden
+		
 		VERGLEICH=$(echo $MP4_NEU | cut -c1-3);
 		if [ $VERGLEICH = "201" ]
 		then
