@@ -73,6 +73,12 @@ LAUFZEIT_ENDE=$(date +%s);
 # Parameter: -checkupdate
 #############################################################
 
+#############################################################
+# Parameter: -tupdate
+# Update der vorhandenen template.slug Datei, ohne
+# die vorhandenen Werte zu überschreiben
+#############################################################
+
 SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
 SLUGTXT=$SLUG".slug";
 SLUGEXIF=$SLUG".exif";
@@ -99,24 +105,25 @@ PROGRAMM_VERSION=$VERSION;
 
 function hilfe_text()
 {
-echo "";
-echo "Hilfe fuer:" $0 "Version:" $VERSION "vom:" $VERSIONSDATUM
-echo "";
-echo "-t | --template: Template-Datei wird erzeugt";
-echo "";
-echo "-exifdatei: Exif-Datei 'slug.exif' wird erzeugt";
-echo "";
-echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
-echo "";
-echo "-braz: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
-echo "";
-echo "-na: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
-echo "";
-echo "-install: Einmaliger Aufruf zur Programm-Installation.";
-echo "        " $0 "wird als User 'root' nach /usr/sbin/ kopiert und mit x-Rechten versehen.";
-echo "";
-echo "-remove: Programm wird deinstalliert. 'root'-Rechte werden dazu abgefragt.";
-echo "";
+	echo "";
+	echo "Hilfe fuer:" $0 "Version:" $VERSION "vom:" $VERSIONSDATUM
+	echo "";
+	echo "-t | --template: Template-Datei wird erzeugt";
+	echo "-tupdate: vorhandene template.slug Dateien werden aktualisiert";
+	echo "";
+	echo "-exifdatei: Exif-Datei 'slug.exif' wird erzeugt";
+	echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
+	echo "-exif: kombiniert zuerst exifdatei und dann exifschreiben";
+	echo "";
+	echo "-braz: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
+	echo "";
+	echo "-na: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
+	echo "";
+	echo "-install: Einmaliger Aufruf zur Programm-Installation.";
+	echo "        " $0 "wird als User 'root' nach /usr/sbin/ kopiert und mit x-Rechten versehen.";
+	echo "";
+	echo "-remove: Programm wird deinstalliert. 'root'-Rechte werden dazu abgefragt.";
+	echo "";
 }
 
 #
@@ -337,6 +344,9 @@ case $1 in
 		fi
 		exit;;
 
+	-tupdate)
+		echo "Parameter: -tupdate";
+		exit;;
 
 	-braz)
 		if [ -f $SLUGTXT ]
@@ -427,6 +437,11 @@ case $1 in
 	echo;
 	exit;;
 	
+
+	-exif)
+		echo "exif Parameter";
+		echo "führt zuerst exifdatei und dann exifschreiben aus";
+	exit;;
 
 	-remove)
 	echo "Entferne " $0 " aus dem Verzeichnis /usr/sbin";
