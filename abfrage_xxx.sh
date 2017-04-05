@@ -48,8 +48,9 @@ function hilfe_text()
 {
 	echo "Hilfe zu: abfrage_xxx.sh";
 	echo "Abfragen:";
-	echo "-first: Auflistung aller Dateien mit first=j";
-	echo "";
+	echo " -v1 | -v2 | -v3: *.slug-Versionen";
+	echo " -first: Auflistung aller Dateien mit first=j";
+	echo " -actress [name]";
 }
 
 #############################################################
@@ -78,6 +79,27 @@ function abfrage_first()
 	echo "Abfrage first erstellt. Datei:" $AUSGABE_DATEI;
 }
 
+function abfrage_v1()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="v1-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Auswerten
+		source $i;
+		if [ $VERSION = "0.1" ]
+		then
+			ZEIT=$(echo $RELEASE | cut -c1-10); 
+			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
+		fi
+	done
+	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage v1 erstellt. Datei:" $AUSGABE_DATEI;
+}
 
 function abfrage_v2()
 {
@@ -101,12 +123,55 @@ function abfrage_v2()
 	echo "Abfrage v2 erstellt. Datei:" $AUSGABE_DATEI;
 }
 
+function abfrage_v3()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="v3-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Auswerten
+		source $i;
+		if [ $VERSION = "0.3" ]
+		then
+			ZEIT=$(echo $RELEASE | cut -c1-10); 
+			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
+		fi
+	done
+	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage v3 erstellt. Datei:" $AUSGABE_DATEI;
+}
 
+
+function abfrage_actress()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="name-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Auswerten
+		source $i;
+		if [ $ACTRESS = $1 ]
+		then
+			ZEIT=$(echo $RELEASE | cut -c1-10); 
+			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
+		fi
+	done
+	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage name erstellt. Datei:" $AUSGABE_DATEI;
+}
 
 case $1 in
 	-h|--h|-help|--help)
 		hilfe_text;
-		echo "";;
+		exit;;
 
 	-v|--version)
 		echo $0 "Version:" $VERSION "vom" $VERSIONSDATUM;
@@ -114,13 +179,31 @@ case $1 in
 
 	-first)
 		abfrage_first;
-		echo "";;
+		exit;;
+
+	-v1)
+		abfrage_v1;
+		exit;;
 
 	-v2)
-		abfrage_v2
-		echo "";;
+		abfrage_v2;
+		exit;;
 		
-	*)
+	-v3)
+		abfrage_v3;
+		exit;;
+		
+	-actress)
+		echo "Anzahl Parameter:" $#;
+		if [ $# eq 2 ]
+		then
+			abfrage_actress $2;
+			exit;
+		fi
+		echo "Falsche Parameter-Anzahl";
+		exit;;
+
+		*)
 		echo "";
 		echo "";;
 esac
