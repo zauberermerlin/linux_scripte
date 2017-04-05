@@ -14,8 +14,9 @@
 #######################
 
 
-VERSION="0.2";
+VERSION="0.3";
 
+#PFAD wird maschinell geschrieben
 #SLUG wird maschinell geschrieben
 #
 TITEL="Don't";
@@ -45,7 +46,7 @@ SERIE="";
 #SERIE="Dont touch her";
 PART="1";
 BILDER="j";
-PORTRAETBILD="1";
+PORTRAETBILD="01";
 THUMBS="n";
 REMASTERED="n";
 VR="n";
