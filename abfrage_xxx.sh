@@ -48,14 +48,36 @@ function hilfe_text()
 {
 	echo "Hilfe zu: abfrage_xxx.sh";
 	echo "Abfragen:";
+	echo " -all: Auflistung aller *.slug-Dateien";
 	echo " -v1 | -v2 | -v3: *.slug-Versionen";
 	echo " -first: Auflistung aller Dateien mit first=j";
+	echo " -vr: Auflistung aller Dateien mit vr=j";
 	echo " -actress [name]";
+	echo " -actress [name]";
+	echo " -anzahl: Auflistung actress und actor mit der Anzahl der *.slug-Dateien";
 }
 
 #############################################################
 # Abfrage Funktionen definieren
 #############################################################
+
+function abfrage_all()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="all-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Ausgeben
+		source $i;
+		echo $ACTRESS";"$ACTOR";"$TITEL";"$ALBUM";"$ZEIT";"$VERSION";"$STUDIO >>$AUSGABE_DATEI;
+	done
+	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage all erstellt. Datei:" $AUSGABE_DATEI;
+}
 
 function abfrage_first()
 {
@@ -97,7 +119,7 @@ function abfrage_v1()
 			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
-	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
 	echo "Abfrage v1 erstellt. Datei:" $AUSGABE_DATEI;
 }
 
@@ -119,7 +141,7 @@ function abfrage_v2()
 			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
-	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
 	echo "Abfrage v2 erstellt. Datei:" $AUSGABE_DATEI;
 }
 
@@ -141,7 +163,7 @@ function abfrage_v3()
 			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
-	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
 	echo "Abfrage v3 erstellt. Datei:" $AUSGABE_DATEI;
 }
 
@@ -158,6 +180,7 @@ function abfrage_actress()
 		# echo $i;
 		# slug Laden und Auswerten
 		source $i;
+		echo "in Funktion (Zeile183) mitgegebener Parameter" $1;
 		if [ $ACTRESS = $1 ]
 		then
 			ZEIT=$(echo $RELEASE | cut -c1-10); 
@@ -175,6 +198,14 @@ case $1 in
 
 	-v|--version)
 		echo $0 "Version:" $VERSION "vom" $VERSIONSDATUM;
+		exit;;
+
+	-all)
+		abfrage_all;
+		exit;;
+		
+	-vr)
+		#abfrage_vr;
 		exit;;
 
 	-first)
