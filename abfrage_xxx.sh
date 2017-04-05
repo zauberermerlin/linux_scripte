@@ -73,9 +73,10 @@ function abfrage_all()
 		# echo $i;
 		# slug Laden und Ausgeben
 		source $i;
-		echo $ACTRESS";"$ACTOR";"$TITEL";"$ALBUM";"$ZEIT";"$VERSION";"$STUDIO >>$AUSGABE_DATEI;
+		echo $TITEL";"$ALBUM";"$ZEIT";"$VERSION";"$STUDIO";"$ACTRESS";"$ACTOR >>$AUSGABE_DATEI;
 	done
-	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	# nach der 6. Spalte sortieren; Trenner ist ";"
+	sort -t ";" -k 6 $AUSGABE_DATEI -o $AUSGABE_DATEI;
 	echo "Abfrage all erstellt. Datei:" $AUSGABE_DATEI;
 }
 
