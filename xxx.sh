@@ -327,10 +327,18 @@ case $1 in
 			if [ -f /home/thomas/scripts/template.slug ]
 			then
 				echo "Template wird kopiert/erstellt.";
+				# erstelle leere Datei
 				touch $SLUGTXT;
+				# Funktion zum Datum schreiben
 				datum_in_datei_schreiben $SLUGTXT;
+				
+				# hier werden die ersten 15 Zeilen (=alles Kommentare) aus der template.slug angefuegt
 				head -n 15 /home/thomas/scripts/template.slug >>$SLUGTXT;
+				# Tag SLUG wird erstellt
 				echo 'SLUG="'$SLUG'";' >>$SLUGTXT; 
+				# Tag Pfad wird erstellt
+				PFAD=$(pwd);
+				echo 'PFAD="'$PFAD'";' >>$SLUGTXT; 
 
 				tail -n $((ANZAHL_ZEILEN-15)) /home/thomas/scripts/template.slug >>$SLUGTXT;
 
@@ -431,17 +439,17 @@ case $1 in
 		
 		
 	-install)
-	echo "Installiere: " $0 " nach /usr/sbin als User root";
-	sudo cp $0 /usr/sbin;
-	sudo chmod a+rx /usr/sbin/$0;
-	echo;
-	exit;;
+		echo "Installiere: " $0 " nach /usr/sbin als User root";
+		sudo cp $0 /usr/sbin;
+		sudo chmod a+rx /usr/sbin/$0;
+		echo;
+		# alternativ: verlinken
+		exit;;
 	
-
 	-exif)
-		echo "exif Parameter";
-		echo "führt zuerst exifdatei und dann exifschreiben aus";
-	exit;;
+		echo "exif Parameter -> noch nicht implementiert";
+		echo "Führt zuerst exifdatei und dann exifschreiben aus";
+		exit;;
 
 	-remove)
 	echo "Entferne " $0 " aus dem Verzeichnis /usr/sbin";
