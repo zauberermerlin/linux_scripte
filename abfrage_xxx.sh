@@ -3,7 +3,6 @@
 # Abfragen aufgrund der slug-Dateien
 #
 
-
 #######################
 #
 # Offizieller Pfad des Repos'
@@ -16,19 +15,85 @@
 #
 #######################
 
-AUSGABE-DATEI="abfrage_ergebnis.txt";
+# Aufruf-Parameter, die in jedem Script vorhanden sein sollten:
+# -h oder --help: Hilfstext mit Bsp.
+# -install: kopieren und verlinken des Scripts, damit direkter Zugriff erfolgt (ggfls. mit -check)
+# 		-check: Verlinkung und chmod, chown Settings
+# -remove: den mit -install durchgeführten Vorgang rückgängig machen
+# -s: sleep/warten in Minuten und herunterzählen in einer Zeile wieviel Minuten noch zu warten ist
+# -w: nach Beendigung eine Whatsapp versenden
+# -m: nach Beendigung eMail versenden
+# -v oder --version: Ausgabe des Versionsstrings
+# -git: überprüfen, ob ein Update auf github vorhanden ist
+# -update: neueste Version von github holen und installieren
+#
+#
+# -ansible: Erstellung bzw. Anzeige des Ansible Playbooks
+# -log: schreibt ins aktuelle Verzeichnis die Datei log.txt
+# -test oder -check
+#
+VERSIONSDATUM="08.03.2017";
+VERSION="0.1";
 
-# alle Dateien, die auf *.slug enden finden und in Variable schreiben
 DATEN=$(find -name '*.slug');
-for i in $DATEN
-do
-  # echo $i;
-  # slug Laden und Auswerten
-  source $i;
-  if [ $FIRST = "j" ]
-  then 
-    echo $ACTRESS";"$TITEL >$AUSGABE-DATEI;
-  fi
-done
 
+
+#############################################################
+# Funktionen definieren
+# muessen vor dem Aufruf definiert werden
+#############################################################
+
+# Hilfe Funktion, zur Ausgabe des Hilfstextes
+function hilfe_test()
+{
+	echo "Hilfe zu" $0;
+	echo "Abfragen:";
+	echo "-first: Auflistung aller Dateien mit first=j";
+	echo "";
+}
+
+#############################################################
+# Abfrage Funktionen definieren
+#############################################################
+
+function abfrage_first()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="first-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Auswerten
+		source $i;
+		if [ $FIRST = "j" ]
+		then
+			ZEIT=$(echo $RELEASE | rev | cut -c1-6 | rev); 
+			echo $FIRSTNAME";"$TITEL";"$ZEIT >$AUSGABE_DATEI;
+		fi
+	done
+}
+
+
+
+case $1 in
+	-h|--h|-help|--help)
+		hilfe_text;
+		echo "";;
+
+	-v|--version)
+		echo $0 "Version:" $VERSION "vom" $VERSIONSTEXT;
+		exit;;
+
+	-first)
+		abfrage_first;
+		echo "Abfrage first erstellt";
+		echo "";;
+
+	*)
+		echo "";
+		echo "";;
+esac
 
