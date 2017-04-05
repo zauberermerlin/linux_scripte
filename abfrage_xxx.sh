@@ -32,7 +32,7 @@
 # -log: schreibt ins aktuelle Verzeichnis die Datei log.txt
 # -test oder -check
 #
-VERSIONSDATUM="08.03.2017";
+VERSIONSDATUM="05.04.2017";
 VERSION="0.1";
 
 DATEN=$(find -name '*.slug');
@@ -46,7 +46,7 @@ DATEN=$(find -name '*.slug');
 # Hilfe Funktion, zur Ausgabe des Hilfstextes
 function hilfe_test()
 {
-	echo "Hilfe zu" $0;
+	echo "Hilfe zu: abfrage_xxx.sh";
 	echo "Abfragen:";
 	echo "-first: Auflistung aller Dateien mit first=j";
 	echo "";
@@ -70,10 +70,11 @@ function abfrage_first()
 		source $i;
 		if [ $FIRST = "j" ]
 		then
-			ZEIT=$(echo $RELEASE | rev | cut -c1-6 | rev); 
-			echo $FIRSTNAME";"$TITEL";"$ZEIT >$AUSGABE_DATEI;
+			ZEIT=$(echo $RELEASE | cut -c1-10); 
+			echo $FIRSTNAME";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
+	echo "Abfrage first erstellt. Datei:" $AUSGABE_DATEI;;
 }
 
 
@@ -84,12 +85,11 @@ case $1 in
 		echo "";;
 
 	-v|--version)
-		echo $0 "Version:" $VERSION "vom" $VERSIONSTEXT;
+		echo $0 "Version:" $VERSION "vom" $VERSIONSDATUM;
 		exit;;
 
 	-first)
 		abfrage_first;
-		echo "Abfrage first erstellt";
 		echo "";;
 
 	*)
