@@ -22,12 +22,12 @@ AUSGABE-DATEI="abfrage_ergebnis.txt";
 DATEN=$(find -name '*.slug');
 for i in $DATEN
 do
-  echo $i;
+  # echo $i;
   # slug Laden und Auswerten
   source $i;
   if [ $FIRST = "j" ]
   then 
-    echo $TITEL "-> Treffer";
+    echo $ACTRESS";"$TITEL >$AUSGABE-DATEI;
   fi
 done
 
