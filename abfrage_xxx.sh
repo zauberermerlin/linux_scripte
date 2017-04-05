@@ -16,7 +16,7 @@
 #
 #######################
 
-AUSGABE-DATEI="abfrage_ergebnis.txt"
+AUSGABE-DATEI="abfrage_ergebnis.txt";
 
 # alle Dateien, die auf *.slug enden finden und in Variable schreiben
 DATEN=$(find -name '*.slug');
@@ -24,10 +24,10 @@ for i in $DATEN
 do
   echo $i;
   # slug Laden und Auswerten
-  source $i
-  if [ $FIRST="j" ]
+  source $i;
+  if [ $FIRST = "j" ]
   then 
-    echo $TITLE "-> Treffer";
+    echo $TITEL "-> Treffer";
   fi
 done
 
