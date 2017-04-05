@@ -44,7 +44,7 @@ DATEN=$(find -name '*.slug');
 #############################################################
 
 # Hilfe Funktion, zur Ausgabe des Hilfstextes
-function hilfe_test()
+function hilfe_text()
 {
 	echo "Hilfe zu: abfrage_xxx.sh";
 	echo "Abfragen:";
@@ -91,14 +91,14 @@ function abfrage_v2()
 		# echo $i;
 		# slug Laden und Auswerten
 		source $i;
-		if [ $Verion = "0.2" ]
+		if [ $VERSION = "0.2" ]
 		then
 			ZEIT=$(echo $RELEASE | cut -c1-10); 
 			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
-	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
-	echo "Abfrage first erstellt. Datei:" $AUSGABE_DATEI;
+	#sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage v2 erstellt. Datei:" $AUSGABE_DATEI;
 }
 
 
