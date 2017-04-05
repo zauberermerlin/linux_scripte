@@ -74,7 +74,31 @@ function abfrage_first()
 			echo $FIRSTNAME";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
-	echo "Abfrage first erstellt. Datei:" $AUSGABE_DATEI;;
+	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage first erstellt. Datei:" $AUSGABE_DATEI;
+}
+
+
+function abfrage_v2()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="v2-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Auswerten
+		source $i;
+		if [ $Verion = "0.2" ]
+		then
+			ZEIT=$(echo $RELEASE | cut -c1-10); 
+			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
+		fi
+	done
+	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage first erstellt. Datei:" $AUSGABE_DATEI;
 }
 
 
@@ -92,6 +116,10 @@ case $1 in
 		abfrage_first;
 		echo "";;
 
+	-v2)
+		abfrage_v2
+		echo "";;
+		
 	*)
 		echo "";
 		echo "";;
