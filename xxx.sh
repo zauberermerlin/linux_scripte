@@ -119,6 +119,8 @@ function hilfe_text()
 	echo "";
 	echo "-na: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
 	echo "";
+	echo "-screenshots [dateiname]: erzeugt Screenshots aus [dateiname]";
+	echo "";
 	echo "-install: Einmaliger Aufruf zur Programm-Installation.";
 	echo "        " $0 "wird als User 'root' nach /usr/sbin/ kopiert und mit x-Rechten versehen.";
 	echo "";
@@ -297,6 +299,24 @@ function exifschreiben_funktion()
 	fi	
 }
 
+function screenshots_funktion()
+{
+	#For JPEG output use -q:v to control output quality. Full range is a linear
+	#scale of 1-31 where a lower value results in a higher quality.
+	#2-5 is a good range to try.
+	# exiftool our-new-maid-part-one.mp4 | grep 'Track Duration'
+	# Track Duration                  : 0:41:30
+	echo "zu wandelnde Datei:" $1;
+	GREPWERT=$(exiftool $1 | grep 'Track Duration' | rev);
+	echo $GREPWERT;
+	DAUER_STD=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f3 | rev);
+	DAUER_MIN=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f2 | rev);
+	echo "Stunden:" $DAUER_STD;
+	echo "Minuten:" $DAUER_STD;
+		
+	#ffmpeg -ss 01:00:45 -i $2 -vframes 1 -q:v 2 ausgabe.jpg
+}
+
 
 #############################################################
 # Auswertung der Parameter
@@ -440,16 +460,20 @@ case $1 in
 
 	-exif)
 		echo "Führt zuerst exifdatei und dann exifschreiben aus";
-		exifdatei_funktion();
-		exifschreiben_funktion
+		exifdatei_funktion;
+		exifschreiben_funktion;
 		exit;;
 
 	-exifdatei)
-			exifdatei_funktion();
+			exifdatei_funktion;
 		exit;;
 
 	-exifschreiben)
-			exifschreiben_funktion
+			exifschreiben_funktion;
+		exit;;
+		
+	-screenshots)
+		screenshots_funktion $2;
 		exit;;
 		
 		
