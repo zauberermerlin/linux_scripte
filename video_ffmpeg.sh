@@ -61,7 +61,7 @@ TMP_DATEI="tmp-ffmpeg.txt";
 LOG="n";
 RCHECK="n";
 WA="n";
-
+ZEITFAKTOR="0.4";
 
 ########################
 # Variablen auslesen
