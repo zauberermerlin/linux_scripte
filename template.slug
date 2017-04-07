@@ -14,7 +14,8 @@
 #######################
 
 
-VERSION="0.3";
+VERSION="0.4";
+VERSIONSDATUM="07.04.2017";
 
 #PFAD wird maschinell geschrieben
 #SLUG wird maschinell geschrieben
@@ -28,12 +29,16 @@ NA="";
 # Datum-Format: yyyy:mm:dd hh:mm
 # Datum-Format: 2017:03:10 00:00
 RELEASE="00:00";
-#ERSTELLT_AM="";
+ERSTELLT_AM="";
 #Mehrere mittels ; (Semikolon) trennen und ohne Leerzeichen nach dem Semikolon
 ACTRESS="";
 ACTOR="";
 STUDIO="Brazzers";
 #STUDIO="NaughtyAmerica";
+#STUDIO="Spizoo";
+#STUDIO="RealityKings";
+#STUDIO="DigitalPlayground";
+#STUDIO="GirlsGrind";
 #Erster Buchstabe gleich Grossbuchstabe
 ALBUM="";
 #ALBUM="Real Wife Stories";
@@ -42,9 +47,16 @@ ALBUM="";
 #ALBUM="Big Tits At School";
 #ALBUM="Big Wet Butts";
 #ALBUM="Brazzers Exxtra";
-SERIE="";
+#ALBUM="Naughty Office";
+#ALBUM="Naughty America"
+#ALBUM="My First Sex Teacher";
+#ALBUM="2 Chicks Same Time";
+#ALBUM="Dirty Housewives";
+DVD="";
 #SERIE="Dont touch her";
+SERIE="";
 PART="1";
+ANZAHLPARTS="";
 BILDER="j";
 PORTRAETBILD="01";
 THUMBS="n";
@@ -52,5 +64,7 @@ REMASTERED="n";
 VR="n";
 FIRST="n";
 FIRSTNAME="";
+NEAR="";
+NEARNAME="";
 STERNE="";
 
