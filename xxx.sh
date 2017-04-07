@@ -255,7 +255,7 @@ function exifdatei_funktion()
 		echo "Exif-Datei existiert bereits.";
 		echo "Nix gemacht.";
 		echo "";
-		exit;
+		#exit;
 	else
 		if [ -f $SLUGTXT ]
 		then
@@ -272,11 +272,11 @@ function exifdatei_funktion()
 		echo "Exif-Datei erzeugt.";
 		echo "";
 		exit;
-		else
+		#else
 			echo "slug-Datei existiert nicht.";
 			echo "Nix gemacht.";
 			echo "";
-			exit;
+			#exit;
 		fi
 	fi
 }
@@ -295,7 +295,7 @@ function exifschreiben_funktion()
 		echo "Keine slug-Datei vorhanden.";
 		echo "Nix gemacht.";
 		echo "";
-		exit;
+		#exit;
 	fi	
 }
 
@@ -309,8 +309,9 @@ function screenshots_funktion()
 	# echo "zu wandelnde Datei:" $1;
 	DATEINAME_OHNE_ENDUNG=$(echo $1 | cut -d. -f1);
 	# echo $DATEINAME_OHNE_ENDUNG;
-	DAUER_STD=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f3 | rev);
-	DAUER_MIN=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f2 | rev);
+	#führende Null (genau eine) muss noch mittels SED entfernt werden
+	DAUER_STD=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f3 | rev | sed 's/^0//');
+	DAUER_MIN=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f2 | rev | sed 's/^0//');
 	#echo "Stunden:" $DAUER_STD;
 	#echo "Minuten:" $DAUER_MIN;
 
@@ -474,6 +475,7 @@ case $1 in
 	-exif)
 		echo "Führt zuerst exifdatei und dann exifschreiben aus";
 		exifdatei_funktion;
+		echo
 		exifschreiben_funktion;
 		exit;;
 
