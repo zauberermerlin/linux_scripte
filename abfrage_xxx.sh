@@ -49,9 +49,12 @@ function hilfe_text()
 	echo "Hilfe zu: abfrage_xxx.sh";
 	echo "Abfragen:";
 	echo " -all: Auflistung aller *.slug-Dateien";
-	echo " -v1 | -v2 | -v3: *.slug-Versionen";
+	echo " -v1 | -v2 | -v3 | v4: *.slug-Versionen";
 	echo " -first: Auflistung aller Dateien mit first=j";
-	echo " -vr: Auflistung aller Dateien mit vr=j";
+	echo " -near: Auflistung aller Dateien mit near=j";
+	echo " -serie: Auflistung aller Dateien mit serie !="""; 
+	echo " -vr (NaughtyAmerica): Auflistung aller Dateien mit vr=j";
+	echo " -remastered (NaughtyAmerica): Auflistung aller Dateien mit vr=j";
 	echo " -actress [name]";
 	echo " -actress [name]";
 	echo " -anzahl: Auflistung actress und actor mit der Anzahl der *.slug-Dateien";

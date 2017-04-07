@@ -111,9 +111,9 @@ function hilfe_text()
 	echo "-t | --template: Template-Datei wird erzeugt";
 	echo "-tupdate: vorhandene template.slug Dateien werden aktualisiert";
 	echo "";
+	echo "-exif: kombiniert zuerst exifdatei und dann exifschreiben";
 	echo "-exifdatei: Exif-Datei 'slug.exif' wird erzeugt";
 	echo "-exifschreiben: Exif-Datei 'slug.exif' wird für jede *-jpg-Datei angewendet";
-	echo "-exif: kombiniert zuerst exifdatei und dann exifschreiben";
 	echo "";
 	echo "-braz: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
 	echo "";
@@ -243,7 +243,58 @@ function na()
 		wget $PFAD"/"$BILD$PIC$i".jpg";
 		mv $BILD$PIC$i".jpg" "0"$i-$SLUG.jpg;
 	done;
+}
 
+
+function exifdatei_funktion()
+{
+	if [ -f $SLUGEXIF ]
+	then
+		echo "Exif-Datei existiert bereits.";
+		echo "Nix gemacht.";
+		echo "";
+		exit;
+	else
+		if [ -f $SLUGTXT ]
+		then
+		echo "Lade slug-Datei";
+		source $SLUGTXT;
+			touch $SLUGEXIF;
+		datum_in_datei_schreiben $SLUGEXIF;
+		
+		echo "# exiftool -overwrite_original -@ slug.exif bilder.jpg" >>$SLUGEXIF;
+		echo "" >>$SLUGEXIF;
+		
+		exiftool_daten_in_datei_schreiben $SLUGEXIF;
+		
+		echo "Exif-Datei erzeugt.";
+		echo "";
+		exit;
+		else
+			echo "slug-Datei existiert nicht.";
+			echo "Nix gemacht.";
+			echo "";
+			exit;
+		fi
+	fi
+}
+
+
+function exifschreiben_funktion()
+{
+	if [ -f $SLUGEXIF ]
+	then
+		for i in *.jpg
+			do
+				exiftool -overwrite_original -@ $SLUGEXIF $i;
+				echo "Exifdaten in" $i "geschrieben.";
+		done;
+	else
+		echo "Keine slug-Datei vorhanden.";
+		echo "Nix gemacht.";
+		echo "";
+		exit;
+	fi	
 }
 
 
@@ -387,54 +438,18 @@ case $1 in
 		fi
 		exit;;
 
-	-exifdatei)
-		if [ -f $SLUGEXIF ]
-		then
-			echo "Exif-Datei existiert bereits.";
-			echo "Nix gemacht.";
-			echo "";
-			exit;
-		else
-			if [ -f $SLUGTXT ]
-			then
-			echo "Lade slug-Datei";
-			source $SLUGTXT;
-
-			touch $SLUGEXIF;
-			datum_in_datei_schreiben $SLUGEXIF;
-			
-			echo "# exiftool -overwrite_original -@ slug.exif bilder.jpg" >>$SLUGEXIF;
-			echo "" >>$SLUGEXIF;
-			
-			exiftool_daten_in_datei_schreiben $SLUGEXIF;
-			
-			echo "Exif-Datei erzeugt.";
-			echo "";
-			exit;
-			else
-				echo "slug-Datei existiert nicht.";
-				echo "Nix gemacht.";
-				echo "";
-				exit;
-			fi
-		fi
+	-exif)
+		echo "Führt zuerst exifdatei und dann exifschreiben aus";
+		exifdatei_funktion();
+		exifschreiben_funktion
 		exit;;
 
+	-exifdatei)
+			exifdatei_funktion();
+		exit;;
 
 	-exifschreiben)
-		if [ -f $SLUGEXIF ]
-		then
-			for i in *.jpg
-				do
-					exiftool -overwrite_original -@ $SLUGEXIF $i;
-					echo "Exifdaten in" $i "geschrieben.";
-			done;
-		else
-			echo "Keine slug-Datei vorhanden.";
-			echo "Nix gemacht.";
-			echo "";
-			exit;
-		fi
+			exifschreiben_funktion
 		exit;;
 		
 		
@@ -446,11 +461,6 @@ case $1 in
 		# alternativ: verlinken
 		exit;;
 	
-	-exif)
-		echo "exif Parameter -> noch nicht implementiert";
-		echo "Führt zuerst exifdatei und dann exifschreiben aus";
-		exit;;
-
 	-remove)
 	echo "Entferne " $0 " aus dem Verzeichnis /usr/sbin";
 	echo "dazu sind root - Rechte erforderlich";
