@@ -148,7 +148,9 @@ function umrechnen() {
 	
 	for i in $GEFUNDENE_DATEIEN
 	do
-		#echo "gefundene Datei:" $i
+		# echo "gefundene Datei:" $i
+		# Beispiel fuer i=/samba/archiv/vdr/test/hallo.mp4
+		# Beispiel fur PFAD=/samba/archiv/vdr/test (ohne / am Ende)
 		PFAD=$(echo $i | rev | cut -d/ -f2- | rev);
 
 		MP2_VORHANDEN=$(echo $i | rev | cut -c4- | rev)"mp2";
@@ -164,8 +166,8 @@ function umrechnen() {
 		#	ohne Leerzeichen
 		# geaendert werden
 		
-		VERGLEICH=$(echo $MP4_NEU | cut -c1-3);
-		if [ $VERGLEICH = "201" ]
+		VERGLEICH=$(echo $MP4_NEU | rev | cut -c1-7 | rev);
+		if [ $VERGLEICH = "rec.mp4" ]
 		then
 			MP4_NEU=$PFAD"/"$(echo $PFAD | rev | cut -d/ -f2 | rev)".mp4";
 			echo "Geänderter Dateiname: $MP4_NEU";
