@@ -271,8 +271,8 @@ function exifdatei_funktion()
 		
 		echo "Exif-Datei erzeugt.";
 		echo "";
-		exit;
-		#else
+		#exit;
+		else
 			echo "slug-Datei existiert nicht.";
 			echo "Nix gemacht.";
 			echo "";
@@ -494,8 +494,8 @@ case $1 in
 		
 	-install)
 		echo "Installiere: " $0 " nach /usr/sbin als User root";
-		sudo cp $0 /usr/sbin;
-		sudo chmod a+rx /usr/sbin/$0;
+		sudo cp /home/thomas/scripts/xxx.sh /usr/sbin/;
+		sudo chmod a+rx /usr/sbin/xxx.sh;
 		echo;
 		# alternativ: verlinken
 		exit;;
@@ -503,7 +503,7 @@ case $1 in
 	-remove)
 	echo "Entferne " $0 " aus dem Verzeichnis /usr/sbin";
 	echo "dazu sind root - Rechte erforderlich";
-	sudo rm /usr/sbin/$0;
+	sudo rm $0;
 	echo;
 	exit;;
 
