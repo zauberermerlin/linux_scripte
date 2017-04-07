@@ -307,13 +307,27 @@ function screenshots_funktion()
 	# exiftool our-new-maid-part-one.mp4 | grep 'Track Duration'
 	# Track Duration                  : 0:41:30
 	echo "zu wandelnde Datei:" $1;
-	GREPWERT=$(exiftool $1 | grep 'Track Duration' | rev);
-	echo $GREPWERT;
+	DATEINAME_OHNE_ENDUNG=$(echo $1 | cut -d. -f1);
+	echo $DATEINAME_OHNE_ENDUNG;
 	DAUER_STD=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f3 | rev);
 	DAUER_MIN=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f2 | rev);
 	echo "Stunden:" $DAUER_STD;
-	echo "Minuten:" $DAUER_STD;
-		
+	echo "Minuten:" $DAUER_MIN;
+
+	#sofern mp4-Video länger als eine Stunde ist
+
+	#ein jpeg pro Minute
+	for((i=0;i<7;i++))
+	do
+		for((j=1;j<$DAUER_MIN;j++))
+		do
+			ZEIT="00:"$i$j":00";
+			ffmpeg -ss $ZEIT -i $1 -vframes 1 -q:v 2 $i$j"-"$DATEINAME_OHNE_ENDUNG".jpg";
+			ZEIT="00:"$i$j":30";
+			ffmpeg -ss $ZEIT -i $1 -vframes 1 -q:v 2 "abc"$i$j"-"$DATEINAME_OHNE_ENDUNG".jpg";
+		done;
+	done;
+				
 	#ffmpeg -ss 01:00:45 -i $2 -vframes 1 -q:v 2 ausgabe.jpg
 }
 
