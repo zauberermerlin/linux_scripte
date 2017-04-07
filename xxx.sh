@@ -306,29 +306,28 @@ function screenshots_funktion()
 	#2-5 is a good range to try.
 	# exiftool our-new-maid-part-one.mp4 | grep 'Track Duration'
 	# Track Duration                  : 0:41:30
-	echo "zu wandelnde Datei:" $1;
+	# echo "zu wandelnde Datei:" $1;
 	DATEINAME_OHNE_ENDUNG=$(echo $1 | cut -d. -f1);
-	echo $DATEINAME_OHNE_ENDUNG;
+	# echo $DATEINAME_OHNE_ENDUNG;
 	DAUER_STD=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f3 | rev);
 	DAUER_MIN=$(exiftool $1 | grep 'Track Duration' | rev | cut -d: -f2 | rev);
-	echo "Stunden:" $DAUER_STD;
-	echo "Minuten:" $DAUER_MIN;
+	#echo "Stunden:" $DAUER_STD;
+	#echo "Minuten:" $DAUER_MIN;
 
-	#sofern mp4-Video länger als eine Stunde ist
+	#Umrechnung in Sekunden
+	let ZEIT=DAUER_MIN*60+DAUER_STD*60*60;
+	#echo $ZEIT;
 
-	#ein jpeg pro Minute
-	for((i=0;i<7;i++))
+	let ZAEHLER;
+	for((i=0;i<=ZEIT;i=i+30))
 	do
-		for((j=1;j<$DAUER_MIN;j++))
-		do
-			ZEIT="00:"$i$j":00";
-			ffmpeg -ss $ZEIT -i $1 -vframes 1 -q:v 2 $i$j"-"$DATEINAME_OHNE_ENDUNG".jpg";
-			ZEIT="00:"$i$j":30";
-			ffmpeg -ss $ZEIT -i $1 -vframes 1 -q:v 2 "abc"$i$j"-"$DATEINAME_OHNE_ENDUNG".jpg";
-		done;
-	done;
-				
-	#ffmpeg -ss 01:00:45 -i $2 -vframes 1 -q:v 2 ausgabe.jpg
+		let ZAEHLER++;
+	#	echo $ZAEHLER"-"$i;
+		ffmpeg -ss $i -i $1 -vframes 1 -q:v 2 $ZAEHLER"-"$DATEINAME_OHNE_ENDUNG".jpg";
+	done
+
+	#Dateien umbenennen
+	#die Grenze liegt bei 9999
 }
 
 
