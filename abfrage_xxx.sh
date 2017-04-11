@@ -186,7 +186,7 @@ function abfrage_actress()
 		# echo $i;
 		# slug Laden und Auswerten
 		source $i;
-		echo "in Funktion (Zeile183) mitgegebener Parameter" $1;
+		#echo "in Funktion (Zeile183) mitgegebener Parameter" $1;
 		if [ $ACTRESS = $1 ]
 		then
 			ZEIT=$(echo $RELEASE | cut -c1-10); 
