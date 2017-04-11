@@ -166,7 +166,7 @@ function abfrage_serie()
 		if [ $SERIE ! = "" ]
 		then
 			ZEIT=$(echo $RELEASE | cut -c1-10); 
-			echo "$TITEL";"$SERIE";"$PART";"$ANZAHLPARTS";"$ZEIT >>$AUSGABE_DATEI;
+			echo $TITEL";"$SERIE";"$PART";"$ANZAHLPARTS";"$ZEIT >>$AUSGABE_DATEI;
 		fi
 	done
 	sort -t ";" -k 2,3 $AUSGABE_DATEI -o $AUSGABE_DATEI;
