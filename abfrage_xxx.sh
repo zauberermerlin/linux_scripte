@@ -127,27 +127,6 @@ function abfrage_v1()
 	echo "Abfrage v1 erstellt. Datei:" $AUSGABE_DATEI;
 }
 
-function abfrage_v2()
-{
-	DATUM=`date "+%Y%m%d-%H%M%S"`
-	#echo $datum
-	AUSGABE_DATEI="v2-"$DATUM".txt";
-	
-	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
-	for i in $DATEN
-	do
-		# echo $i;
-		# slug Laden und Auswerten
-		source $i;
-		if [ $VERSION = "0.2" ]
-		then
-			ZEIT=$(echo $RELEASE | cut -c1-10); 
-			echo $ACTRESS";"$TITEL";"$ZEIT >>$AUSGABE_DATEI;
-		fi
-	done
-	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
-	echo "Abfrage v2 erstellt. Datei:" $AUSGABE_DATEI;
-}
 
 function abfrage_v3()
 {
@@ -169,6 +148,29 @@ function abfrage_v3()
 	done
 	sort $AUSGABE_DATEI -o $AUSGABE_DATEI;
 	echo "Abfrage v3 erstellt. Datei:" $AUSGABE_DATEI;
+}
+
+
+function abfrage_serie()
+{
+	DATUM=`date "+%Y%m%d-%H%M%S"`
+	#echo $datum
+	AUSGABE_DATEI="serie-"$DATUM".txt";
+	
+	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
+	for i in $DATEN
+	do
+		# echo $i;
+		# slug Laden und Auswerten
+		source $i;
+		if [ $SERIE ! = "" ]
+		then
+			ZEIT=$(echo $RELEASE | cut -c1-10); 
+			echo "$TITEL";"$SERIE";"$PART";"$ANZAHLPARTS";"$ZEIT >>$AUSGABE_DATEI;
+		fi
+	done
+	sort -t ";" -k 2,3 $AUSGABE_DATEI -o $AUSGABE_DATEI;
+	echo "Abfrage serie erstellt. Datei:" $AUSGABE_DATEI;
 }
 
 
@@ -220,12 +222,13 @@ case $1 in
 		abfrage_v1;
 		exit;;
 
-	-v2)
-		abfrage_v2;
-		exit;;
-		
+	
 	-v3)
 		abfrage_v3;
+		exit;;
+		
+	-serie)
+		abfrage_serie;
 		exit;;
 		
 	-actress)
