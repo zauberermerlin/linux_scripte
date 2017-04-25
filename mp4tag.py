@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import sys
-from metaup import MP4
+from mutagen.mp4 import MP4
 # datei = MP4("practice-makes-perfect-porn.mp4")
 # datei['\xa9nam'] = 'Eva Test'
 # datei['\xa9day'] = '2017'
@@ -26,3 +26,9 @@ from metaup import MP4
 
 print 'Number of arguments:', len(sys.argv), 'arguments.'
 # print 'Argument List:', str(sys.argv)
+print 'Number of arguments:', len(sys.argv), 'arguments.'
+# print 'Argument List:', str(sys.argv)
+if sys.argv[1] == 'hallo':
+    print "Hallo"
+else:
+    print "Nix"
