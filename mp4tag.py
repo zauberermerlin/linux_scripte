@@ -1,6 +1,6 @@
-!#/usr/bin/python
+#!/usr/bin/python
 import sys
-from metaup improt MP4
+from metaup import MP4
 # datei = MP4("practice-makes-perfect-porn.mp4")
 # datei['\xa9nam'] = 'Eva Test'
 # datei['\xa9day'] = '2017'
