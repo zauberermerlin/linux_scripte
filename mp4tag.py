@@ -1,34 +1,34 @@
 #!/usr/bin/python
+# 
+# Die Uebergabe der Parameter aus der bash muss mit doppelten Anfuehrungszeichen erfolgen
+# Hochkomma und Leerzeichen sind dann irrelevant
+#
+from mutagen.mp4 import MP4, MP4Cover
 import sys
-from mutagen.mp4 import MP4
-# datei = MP4("practice-makes-perfect-porn.mp4")
-# datei['\xa9nam'] = 'Eva Test'
-# datei['\xa9day'] = '2017'
-# datei['\xa9gen'] = 'Brazzers'
-# datei.save()
-# print(datei['\xa9nam'])
-# --> Fehler datei['stik'] = str(unichr(10))
-# datei['stik'] = '10'
-
-# Cover einfügen -->ok
-# with open("practice-makes-perfect-porn.jpg", "rb") as f:
-#    datei["covr"] = [
-#        MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
-#    ]
-
-
-# datei.save()
-# print(datei['trkn'])
-# Wert 10 = tv show
-# print(datei['stik'])
-# print(datei['covr'])
-
-
 print 'Number of arguments:', len(sys.argv), 'arguments.'
 # print 'Argument List:', str(sys.argv)
-print 'Number of arguments:', len(sys.argv), 'arguments.'
-# print 'Argument List:', str(sys.argv)
-if sys.argv[1] == 'hallo':
-    print "Hallo"
-else:
-    print "Nix"
+# 1. Parameter: Dateiname
+# 2. Parameter: Titel
+# 3. Artist
+# 4. Album
+# 5. Jahr
+# 6. Nummer/Track
+# 7. Genre/Studio
+# 8. Kommentar
+# 9. Cover-Bild
+datei = MP4(sys.argv[1])
+datei['\xa9nam'] = sys.argv[2]
+datei['\xa9ART'] = sys.argv[3]
+datei['\xa9alb'] = sys.argv[4]
+datei['\xa9day'] = sys.argv[5]
+#datei['trkn'] = sys.argv[6]
+datei['\xa9gen'] = sys.argv[7]
+datei['\xa9cmt'] = sys.argv[8]
+
+# Cover einfuegen
+with open(sys.argv[9], "rb") as f:
+	datei['covr'] = [
+	MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
+	]
+
+datei.save()
