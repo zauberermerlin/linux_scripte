@@ -17,8 +17,8 @@
 #
 #######################
 
-VERSIONSDATUM="08.03.2017";
-VERSION="0.1";
+VERSIONSDATUM="26.04.2017";
+VERSION="0.2";
 
 BEGINN_DATUM=$(date +%d.%m.%Y);
 #echo $BEGINN_DATUM;
@@ -120,6 +120,8 @@ function hilfe_text()
 	echo "-na: Bilder downloaden aufgrund der Einträge in der 'name.slug'-Datei";
 	echo "";
 	echo "-screenshots [dateiname]: erzeugt Screenshots aus [dateiname]";
+	echo "";
+	echo "-mp4tag: erzeugt aus 'name.slug'-Datei mp4-Tags in der mp4-Datei";
 	echo "";
 	echo "-install: Einmaliger Aufruf zur Programm-Installation.";
 	echo "        " $0 "wird als User 'root' nach /usr/sbin/ kopiert und mit x-Rechten versehen.";
@@ -331,6 +333,22 @@ function screenshots_funktion()
 	#die Grenze liegt bei 9999
 }
 
+function mp4tag_funktion()
+{
+	# Aufruf des python-Scripts 'mp4tag.py' mit 9 (neun) Parametern
+	# mp4-Tags werden in die mp4-Datei geschrieben
+	echo "mp4tag";
+	if [ ! -f $SLUGTXT ]
+		then
+			echo "Slug-Datei:" $SLUGTXT "ist nicht vorhanden";
+			exit;
+	fi
+	echo "Los gehts";
+	#source my-stepmoms-obsessed-with-me.slug ; ./xxx.py my-stepmoms-obsessed-with-me.mp4 "$TITEL" "$ACTRESS"';'"$ACTOR" "$ALBUM" "2017" "1" "$STUDIO" "$BESCHREIBUNG" "05-my-stepmoms-obsessed-with-me.jpg"
+	
+			
+}
+
 
 #############################################################
 # Auswertung der Parameter
@@ -490,7 +508,11 @@ case $1 in
 	-screenshots)
 		screenshots_funktion $2;
 		exit;;
-		
+	
+	-mp4tag)
+		mp4tag_funktion;
+		exit;;
+	
 		
 	-install)
 		echo "Installiere: " $0 " nach /usr/sbin als User root";
