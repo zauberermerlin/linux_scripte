@@ -3,6 +3,21 @@
 # Die Uebergabe der Parameter aus der bash muss mit doppelten Anfuehrungszeichen erfolgen
 # Hochkomma und Leerzeichen sind dann irrelevant
 #
+#######################
+#
+# Offizieller Pfad des Repos'
+# https://github.com/zauberermerlin/linux_scripte.git
+#
+# fuer curl wird der raw Pfad der einzelnen Datei benötigt
+#
+#
+#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/mp4tag.py >mp4tag.py
+#
+#######################
+
+VERSIONSDATUM="02.05.2017";
+VERSION="0.1";
+
 from mutagen.mp4 import MP4, MP4Cover
 import sys
 print 'Number of arguments:', len(sys.argv), 'arguments.'
