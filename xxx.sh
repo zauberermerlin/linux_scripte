@@ -10,10 +10,10 @@
 # Offizieller Pfad des Repos'
 # https://github.com/zauberermerlin/linux_scripte.git
 #
-# fuer curl wird der raw Pfad der einzelnen Datei benötigt
+# fuer curl wird der raw Pfad der einzelnen Datei benoetigt
 #
 #
-#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/xxx.sh >xxx.sh
+# curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/xxx.sh >xxx.sh
 #
 #######################
 
@@ -351,7 +351,8 @@ function mp4tag_funktion()
 	
 	if [ ! -f /home/thomas/scripts/mp4tag.py ]
 		then
-			echo "Datei: /home/thomas/scripts/mp4tag.py nicht vorhanden";
+			echo "Datei: /home/thomas/scripts/mp4tag.py nicht vorhanden.";
+			echo "Programm beendet";
 			exit;
 	fi
 
