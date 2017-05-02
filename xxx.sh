@@ -17,8 +17,8 @@
 #
 #######################
 
-VERSIONSDATUM="26.04.2017";
-VERSION="0.2";
+VERSIONSDATUM="02.05.2017";
+VERSION="0.3";
 
 BEGINN_DATUM=$(date +%d.%m.%Y);
 #echo $BEGINN_DATUM;
@@ -82,6 +82,8 @@ LAUFZEIT_ENDE=$(date +%s);
 SLUG=$(echo $PWD | rev | cut -d/ -f1 | rev);
 SLUGTXT=$SLUG".slug";
 SLUGEXIF=$SLUG".exif";
+
+SLUGMP4=$SLUG".mp4";
 
 STAMM_BRAZ_1="http://static.brazzers.com/scenes/";
 STAMM_BRAZ_2="/preview/img";
@@ -344,9 +346,26 @@ function mp4tag_funktion()
 			exit;
 	fi
 	echo "Los gehts";
+	source $SLUGTXT;
 	#source my-stepmoms-obsessed-with-me.slug ; ./xxx.py my-stepmoms-obsessed-with-me.mp4 "$TITEL" "$ACTRESS"';'"$ACTOR" "$ALBUM" "2017" "1" "$STUDIO" "$BESCHREIBUNG" "05-my-stepmoms-obsessed-with-me.jpg"
 	
-			
+	if [ ! -f /home/thomas/scripts/mp4tag.py ]
+		then
+			echo "Datei: /home/thomas/scripts/mp4tag.py nicht vorhanden";
+			exit;
+	fi
+
+# 1. Parameter: Dateiname
+# 2. Parameter: Titel
+# 3. Artist
+# 4. Album
+# 5. Jahr
+# 6. Nummer/Track
+# 7. Genre/Studio
+# 8. Kommentar
+# 9. Cover-Bild
+	/home/thomas/scripts/mp4tag.py $SLUGMP4 $TITEL zwei drei vier fuenf sechs sieben acht neun;
+
 }
 
 
