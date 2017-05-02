@@ -15,13 +15,15 @@
 
 
 VERSION="0.4";
-VERSIONSDATUM="07.04.2017";
+VERSIONSDATUM="02.045.2017";
 
 #PFAD wird maschinell geschrieben
 #SLUG wird maschinell geschrieben
 #
 TITEL="Don't";
-TITELBILD="";
+#Mehrere mittels ; (Semikolon) trennen und ohne Leerzeichen nach dem Semikolon
+ACTRESS="";
+ACTOR="";
 BESCHREIBUNG="";
 BRAZNR="9";
 #Link des ersten Bildes
@@ -30,35 +32,45 @@ NA="";
 # Datum-Format: 2017:03:10 00:00
 RELEASE="00:00";
 ERSTELLT_AM="";
-#Mehrere mittels ; (Semikolon) trennen und ohne Leerzeichen nach dem Semikolon
-ACTRESS="";
-ACTOR="";
+#
+TITELBILD="";
+PORTRAETBILD="01";
+#
 STUDIO="Brazzers";
-#STUDIO="NaughtyAmerica";
-#STUDIO="Spizoo";
-#STUDIO="RealityKings";
-#STUDIO="DigitalPlayground";
-#STUDIO="GirlsGrind";
-#Erster Buchstabe gleich Grossbuchstabe
 ALBUM="";
-#ALBUM="Real Wife Stories";
-#ALBUM="Doctor Adventures";
+#ALBUM="A Day With A Pornstar";
+#ALBUM="Big Butts Like It Big";
 #ALBUM="Big Tits At Work";
 #ALBUM="Big Tits At School";
 #ALBUM="Big Wet Butts";
 #ALBUM="Brazzers Exxtra";
+#ALBUM="Doctor Adventures";
+#ALBUM="Hot And Mean";
+#ALBUM="Pornstars Like It Big";
+#ALBUM="Real Wife Stories";
+#ALBUM="ZZ Series";
+#
+#STUDIO="NaughtyAmerica";
+#ALBUM="I Have A Wife";
 #ALBUM="Naughty Office";
 #ALBUM="Naughty America"
 #ALBUM="My First Sex Teacher";
 #ALBUM="2 Chicks Same Time";
 #ALBUM="Dirty Housewives";
+#ALBUM="Tonights Girlfriend";
+#ALBUM="Wives On Vacation";
+#
+#STUDIO="Spizoo";
+#STUDIO="RealityKings";
+#STUDIO="DigitalPlayground";
+#STUDIO="GirlsGrind";
+#Erster Buchstabe gleich Grossbuchstabe
 DVD="";
 #SERIE="Dont touch her";
 SERIE="";
 PART="1";
 ANZAHLPARTS="";
 BILDER="j";
-PORTRAETBILD="01";
 THUMBS="n";
 REMASTERED="n";
 VR="n";
