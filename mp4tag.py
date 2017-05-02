@@ -8,10 +8,10 @@
 # Offizieller Pfad des Repos'
 # https://github.com/zauberermerlin/linux_scripte.git
 #
-# fuer curl wird der raw Pfad der einzelnen Datei benötigt
+# fuer curl wird der raw Pfad der einzelnen Datei benoetigt
 #
 #
-#curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/mp4tag.py >mp4tag.py
+# curl -L https://raw.githubusercontent.com/zauberermerlin/linux_scripte/master/mp4tag.py >mp4tag.py
 #
 #######################
 
@@ -40,10 +40,10 @@ datei['\xa9day'] = sys.argv[5]
 datei['\xa9gen'] = sys.argv[7]
 datei['\xa9cmt'] = sys.argv[8]
 
-# Cover einfuegen
-with open(sys.argv[9], "rb") as f:
-	datei['covr'] = [
-	MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
-	]
+#### Cover einfuegen
+# with open(sys.argv[9], "rb") as f:
+#	datei['covr'] = [
+#	MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
+#	]
 
 datei.save()
