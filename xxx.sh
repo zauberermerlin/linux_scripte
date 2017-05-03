@@ -369,7 +369,7 @@ function mp4tag_funktion()
 	#ansonsten mit; (Semikolon) actress + actor
 	ARTIST=$ACTRESS;
 	
-	if [ ! $ACTOR != "" ]
+	if [ ! $ACTOR = "" ]
 		then
 			echo "Variable Actor ist gefüllt";
 			ARTIST=$ACTRESS";"$ACTOR;
