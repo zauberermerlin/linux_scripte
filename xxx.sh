@@ -365,7 +365,7 @@ function mp4tag_funktion()
 # 7. Genre/Studio
 # 8. Kommentar
 # 9. Cover-Bild
-	/home/thomas/scripts/mp4tag.py $SLUGMP4 $TITEL drei $ALBUM fuenf sechs $STUDIO acht neun;
+	/home/thomas/scripts/mp4tag.py "$SLUGMP4" "$TITEL" drei "$ALBUM" fuenf track "$STUDIO" acht neun;
 
 }
 
