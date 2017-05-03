@@ -373,9 +373,10 @@ function mp4tag_funktion()
 		then
 			echo "Variable Actor ist gefüllt";
 			ARTIST=$ACTRESS";"$ACTOR;
-			echo $ARTIST;
 	fi
-	
+
+	echo $ARTIST;
+
 	JAHR=$(echo $RELEASE | cut -c1-4);
 	echo "Jahr:" $JAHR;
 	

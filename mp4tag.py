@@ -47,15 +47,15 @@ print 'Album/Serie:', sys.argv[4]
 print 'Jahr:', sys.argv[5]
 print 'Track/Nummer (wird nicht verwendet):', sys.argv[6]
 print 'Genre/Studio:', sys.argv[7]
-print 'Kommentar/Beschreibung:', sys.argv[8]
+# print 'Kommentar/Beschreibung:', sys.argv[8]
 print 'Titelbild (Dateiname)', sys.argv[9]
 
 
 
 #### Cover einfuegen
-# with open(sys.argv[9], "rb") as f:
-#	datei['covr'] = [
-#	MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
-#	]
+with open(sys.argv[9], "rb") as f:
+	datei['covr'] = [
+	MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
+	]
 
 datei.save()
