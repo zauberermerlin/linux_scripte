@@ -440,7 +440,7 @@ case $1 in
 	-v|--version)
 		echo "";
 		echo "Programm:" $0;
-		echo "Version:" $VERSION "vom:" $VERSIONSDATUM
+		echo "Version:" $VERSION "vom:" $VERSIONSDATUM;
 		echo "";
 		exit;;
 
@@ -530,7 +530,7 @@ case $1 in
 	-exif)
 		echo "Führt zuerst exifdatei und dann exifschreiben aus";
 		exifdatei_funktion;
-		echo
+		echo "";
 		exifschreiben_funktion;
 		exit;;
 
