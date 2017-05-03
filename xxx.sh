@@ -365,7 +365,24 @@ function mp4tag_funktion()
 # 7. Genre/Studio
 # 8. Kommentar
 # 9. Cover-Bild
-	/home/thomas/scripts/mp4tag.py "$SLUGMP4" "$TITEL" drei "$ALBUM" fuenf track "$STUDIO" acht neun;
+	#Wenn actor nicht gefüllt/leer, dann nur actress
+	#ansonsten mit; (Semikolon) actress + actor
+	ARTIST=$ACTRESS;
+	
+	if [ ! $ACTOR=="" ]
+		then
+			echo "Variable Actor ist gefüllt";
+			ARTIST=$ACTRESS";"$ACTOR;
+			echo $ARTIST;
+	fi
+	
+	JAHR=$(echo $RELEASE | cut -c1-4);
+	echo "Jahr:" $JAHR;
+	
+	BILD=$TITELBILD"-"$SLUGMP4;
+	echo "Bild:" $BILD;
+	
+	/home/thomas/scripts/mp4tag.py "$SLUGMP4" "$TITEL" "$ARTIST" "$ALBUM" "$JAHR" track "$STUDIO" "$BESCHREIBUNG" "$BILD";
 
 }
 

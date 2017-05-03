@@ -40,6 +40,18 @@ datei['\xa9day'] = sys.argv[5]
 datei['\xa9gen'] = sys.argv[7]
 datei['\xa9cmt'] = sys.argv[8]
 
+print 'Dateiname:', sys.argv[1]
+print 'Titel:', sys.argv[2]
+print 'Actress/Actor', sys.argv[3]
+print 'Album/Serie:', sys.argv[4]
+print 'Jahr:', sys.argv[5]
+print 'Track/Nummer (wird nicht verwendet):', sys.argv[6]
+print 'Genre/Studio:', sys.argv[7]
+print 'Kommentar/Beschreibung:', sys.argv[8]
+print 'Titelbild (Dateiname)', sys.argv[9]
+
+
+
 #### Cover einfuegen
 # with open(sys.argv[9], "rb") as f:
 #	datei['covr'] = [
