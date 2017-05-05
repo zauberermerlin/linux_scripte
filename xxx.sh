@@ -369,18 +369,23 @@ function mp4tag_funktion()
 	#ansonsten mit; (Semikolon) actress + actor
 	ARTIST=$ACTRESS;
 	
-	if [ ! $ACTOR = "" ]
-		then
-			echo "Variable Actor ist gefüllt";
-			ARTIST=$ACTRESS";"$ACTOR;
+	if [ $ACTOR != "" ]
+	then
+		echo "Variable Actor ist gefüllt";
+		ARTIST=$ACTRESS";"$ACTOR;
 	fi
 
-	echo $ARTIST;
+	echo "Actress/Actor:" $ARTIST;
 
 	JAHR=$(echo $RELEASE | cut -c1-4);
 	echo "Jahr:" $JAHR;
 	
 	BILD=$TITELBILD"-"$SLUG".jpg";
+	if [ $TITELBILD == "" ]
+	then
+		BILD="dummy";
+	fi
+	
 	echo "Bild:" $BILD;
 	
 	/home/thomas/scripts/mp4tag.py "$SLUGMP4" "$TITEL" "$ARTIST" "$ALBUM" "$JAHR" track "$STUDIO" "$BESCHREIBUNG" "$BILD";

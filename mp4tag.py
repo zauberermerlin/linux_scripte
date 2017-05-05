@@ -50,6 +50,10 @@ print 'Genre/Studio:', sys.argv[7]
 # print 'Kommentar/Beschreibung:', sys.argv[8]
 print 'Titelbild (Dateiname)', sys.argv[9]
 
+if sys.argv[9] == "dummy":
+	print "Es wurde keine Bilddatei übergeben."
+	print "Programm wird beendet."
+	sys.exit
 
 
 #### Cover einfuegen
