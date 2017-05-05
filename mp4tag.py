@@ -50,16 +50,13 @@ print 'Genre/Studio:', sys.argv[7]
 # print 'Kommentar/Beschreibung:', sys.argv[8]
 print 'Titelbild (Dateiname)', sys.argv[9]
 
+#### Cover einfuegen
 if sys.argv[9] == "dummy":
 	print "Es wurde keine Bilddatei übergeben."
-	print "Programm wird beendet."
-	sys.exit
-
-
-#### Cover einfuegen
-with open(sys.argv[9], "rb") as f:
-	datei['covr'] = [
-	MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
-	]
+else:
+	with open(sys.argv[9], "rb") as f:
+		datei['covr'] = [
+		MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)
+		]
 
 datei.save()
