@@ -70,13 +70,27 @@ function abfrage_all()
 	#echo $datum
 	AUSGABE_DATEI="all-"$DATUM".txt";
 	
+	# Ueberschriften
+	echo '"TITEL","ALBUM","ZEIT","VERSION","STUDIO","ACTRESS","ACTOR"';
+	
 	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
 	for i in $DATEN
 	do
 		# echo $i;
 		# slug Laden und Ausgeben
 		source $i;
-		echo $TITEL";"$ALBUM";"$ZEIT";"$VERSION";"$STUDIO";"$ACTRESS";"$ACTOR >>$AUSGABE_DATEI;
+
+		ANZAHL_TRENNER_ACTRESS=$(echo -n "$ACTRESS" | sed -e 's/[^a]//g' | wc -m);
+		ANZAHL_TRENNER_ACTOR=$(echo -n "$ACTOR" | sed -e 's/[^a]//g' | wc -m);
+		
+		for((j=1;i<=$ANZAHL_TREIBER_ACTRESS)
+		do
+			echo $ACTRESS | cut -d\; -f$j;
+		done
+
+
+
+		echo '"'$ANZAHL_TRENNER_ACTRESS'","'$TITEL'","'$ALBUM'","'$ZEIT'","'$VERSION'","'$STUDIO'","'$ACTRESS'","'$ACTOR'"' >>$AUSGABE_DATEI;
 	done
 	# nach der 6. Spalte sortieren; Trenner ist ";"
 	sort -t ";" -k 6 $AUSGABE_DATEI -o $AUSGABE_DATEI;
