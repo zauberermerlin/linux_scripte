@@ -71,7 +71,7 @@ function abfrage_all()
 	AUSGABE_DATEI="all-"$DATUM".txt";
 	
 	# Ueberschriften
-	echo '"TITEL","ALBUM","ZEIT","VERSION","STUDIO","ACTRESS","ACTOR"';
+	echo '"TITEL","ALBUM","ZEIT","VERSION","STUDIO","ACTRESS","ACTOR"' >>$AUSGABE_DATEI;
 	
 	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
 	for i in $DATEN
@@ -83,7 +83,7 @@ function abfrage_all()
 		ANZAHL_TRENNER_ACTRESS=$(echo -n "$ACTRESS" | sed -e 's/[^a]//g' | wc -m);
 		ANZAHL_TRENNER_ACTOR=$(echo -n "$ACTOR" | sed -e 's/[^a]//g' | wc -m);
 		
-		for((j=1;i<=$ANZAHL_TREIBER_ACTRESS)
+		for((j=1;j<$ANZAHL_TRENNER_ACTRESS;j++))
 		do
 			echo $ACTRESS | cut -d\; -f$j;
 		done
