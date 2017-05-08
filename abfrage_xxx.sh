@@ -80,21 +80,27 @@ function abfrage_all()
 		# slug Laden und Ausgeben
 		source $i;
 
-		ANZAHL_TRENNER_ACTRESS=$(echo -n "$ACTRESS" | sed -e 's/[^a]//g' | wc -m);
-		ANZAHL_TRENNER_ACTOR=$(echo -n "$ACTOR" | sed -e 's/[^a]//g' | wc -m);
-		
-		for((j=1;j<$ANZAHL_TRENNER_ACTRESS;j++))
-		do
-			echo $ACTRESS | cut -d\; -f$j;
+	#	ANZAHL_TRENNER_ACTRESS=$(echo -n "$ACTRESS" | sed -e 's/[^a]//g' | wc -m);
+	#	ANZAHL_TRENNER_ACTOR=$(echo -n "$ACTOR" | sed -e 's/[^a]//g' | wc -m);
+	#	
+	#	for((j=1;j<$ANZAHL_TRENNER_ACTRESS;j++))
+	#	do
+	#		echo $ACTRESS | cut -d\; -f$j;
+	#	done
+
+		IFS=';' read -ra ADDR <<< "$ACTRESS"
+		for j in "${ADDR[@]}"; do
+		    # process "$i"
+			echo '"'$ACTRESS'","'$TITEL'"';
 		done
 
 
 
-		echo '"'$ANZAHL_TRENNER_ACTRESS'","'$TITEL'","'$ALBUM'","'$ZEIT'","'$VERSION'","'$STUDIO'","'$ACTRESS'","'$ACTOR'"' >>$AUSGABE_DATEI;
+#		echo '"'$ANZAHL_TRENNER_ACTRESS'","'$TITEL'","'$ALBUM'","'$ZEIT'","'$VERSION'","'$STUDIO'","'$ACTRESS'","'$ACTOR'"' >>$AUSGABE_DATEI;
 	done
 	# nach der 6. Spalte sortieren; Trenner ist ";"
-	sort -t ";" -k 6 $AUSGABE_DATEI -o $AUSGABE_DATEI;
-	echo "Abfrage all erstellt. Datei:" $AUSGABE_DATEI;
+#	sort -t ";" -k 6 $AUSGABE_DATEI -o $AUSGABE_DATEI;
+#	echo "Abfrage all erstellt. Datei:" $AUSGABE_DATEI;
 }
 
 function abfrage_first()
@@ -259,4 +265,6 @@ case $1 in
 		echo "";
 		echo "";;
 esac
+
+#build=1
 
