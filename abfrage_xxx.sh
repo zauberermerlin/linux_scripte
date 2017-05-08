@@ -71,7 +71,7 @@ function abfrage_all()
 	AUSGABE_DATEI="all-"$DATUM".txt";
 	
 	# Ueberschriften
-	echo '"TITEL","ALBUM","ZEIT","VERSION","STUDIO","ACTRESS","ACTOR"' >>$AUSGABE_DATEI;
+	# echo '"TITEL","ALBUM","ZEIT","VERSION","STUDIO","ACTRESS","ACTOR"' >>$AUSGABE_DATEI;
 	
 	# alle Dateien, die auf *.slug enden finden und in Variable schreiben
 	for i in $DATEN
@@ -90,11 +90,11 @@ function abfrage_all()
 
 		IFS=';' read -ra ADDR <<< "$ACTRESS"
 		for j in "${ADDR[@]}"; do
-		    # process "$i"
-			echo '"'$ACTRESS'","'$TITEL'"';
+			echo '"'$j'","'$TITEL'"' >>>tmp1.txt;
+			echo '"'$j'"' >>>tmp2.txt
 		done
 
-
+		sort tmp2.txt | uniq >mp3.txt;
 
 #		echo '"'$ANZAHL_TRENNER_ACTRESS'","'$TITEL'","'$ALBUM'","'$ZEIT'","'$VERSION'","'$STUDIO'","'$ACTRESS'","'$ACTOR'"' >>$AUSGABE_DATEI;
 	done
@@ -266,5 +266,5 @@ case $1 in
 		echo "";;
 esac
 
-#build=1
+#build=2
 
