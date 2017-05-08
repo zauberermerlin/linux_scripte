@@ -90,8 +90,8 @@ function abfrage_all()
 
 		IFS=';' read -ra ADDR <<< "$ACTRESS"
 		for j in "${ADDR[@]}"; do
-			echo '"'$j'","'$TITEL'"' >>>tmp1.txt;
-			echo '"'$j'"' >>>tmp2.txt
+			echo '"'$j'","'$TITEL'"' >>tmp1.txt;
+			echo '"'$j'"' >>tmp2.txt
 		done
 
 		sort tmp2.txt | uniq >mp3.txt;
@@ -266,5 +266,5 @@ case $1 in
 		echo "";;
 esac
 
-#build=2
+#build=3
 
