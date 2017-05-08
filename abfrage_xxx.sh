@@ -94,7 +94,13 @@ function abfrage_all()
 			echo '"'$j'"' >>tmp2.txt
 		done
 
-		sort tmp2.txt | uniq >mp3.txt;
+		sort tmp2.txt | uniq >tmp3.txt;
+
+		for j in tmp3.txt
+		do
+			ANZAHL=$(grep -c "$j" tmp3.txt); 
+			echo '"'$j'","'$ANZAHL'"' >>tmp4.txt;
+		done
 
 #		echo '"'$ANZAHL_TRENNER_ACTRESS'","'$TITEL'","'$ALBUM'","'$ZEIT'","'$VERSION'","'$STUDIO'","'$ACTRESS'","'$ACTOR'"' >>$AUSGABE_DATEI;
 	done
