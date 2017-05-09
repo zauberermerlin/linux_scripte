@@ -121,7 +121,7 @@ function abfrage_all()
 			
 			# Ergebnis sind zwei Zeichen mehr, da der Eintrag in Anfuehrungszeichen eingeschlossen ist
 			# echo "Laenge Name:" ${#EINTRAG}:
-			echo '"'$EINTRAG'";"'$ANZAHL'";"'${#EINTRAG}'"' >>$AUSGABE_DATEI;
+			echo $EINTRAG';"'$ANZAHL'";"'${#EINTRAG}'"' >>$AUSGABE_DATEI;
 		done	
 
 		# temporaere Dateien loeschen
