@@ -94,19 +94,30 @@ function abfrage_all()
 			echo '"'$j'"' >>tmp2.txt
 		done
 
+		# alphabetisch sortieren und doppelte Eintraege entfernen
 		sort tmp2.txt | uniq >tmp3.txt;
-
-		for j in tmp3.txt
-		do
-			ANZAHL=$(grep -c "$j" tmp3.txt); 
-			echo '"'$j'","'$ANZAHL'"' >>tmp4.txt;
-		done
 
 #		echo '"'$ANZAHL_TRENNER_ACTRESS'","'$TITEL'","'$ALBUM'","'$ZEIT'","'$VERSION'","'$STUDIO'","'$ACTRESS'","'$ACTOR'"' >>$AUSGABE_DATEI;
 	done
 	# nach der 6. Spalte sortieren; Trenner ist ";"
 #	sort -t ";" -k 6 $AUSGABE_DATEI -o $AUSGABE_DATEI;
 #	echo "Abfrage all erstellt. Datei:" $AUSGABE_DATEI;
+
+
+# jedes Vorkommen aus tmp3.txt nehmen und schauen, wie oft es in tmp2.txt vorkommt
+		# Anzahl der Eintraege in tmp3.txt ermitteln
+		ANZAHL_EINTRAEGE=$(wc -l tmp3.txt);
+		
+		# Schleife ueber alle Eintraege
+		for((k=1;k<=$ANZAHL_EINTRAEGE; k++))
+		do
+			EINTRAG=$(head -n $k | tail -n 1);
+			ANZAHL=$(grep -c "$j" tmp2.txt); 
+			echo -n "k:" $k;
+			echo -n " Eintrag:" $EINTRAG;
+			echo " Anzahl:" $ANZAHL;
+		done	
+
 }
 
 function abfrage_first()
