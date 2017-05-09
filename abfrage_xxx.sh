@@ -105,19 +105,29 @@ function abfrage_all()
 
 
 # jedes Vorkommen aus tmp3.txt nehmen und schauen, wie oft es in tmp2.txt vorkommt
+		# Erstellung der Ueberschriften
+		echo '"Name";"Vorkommen";"Laenge_Name"' >>$AUSGABE_DATEI;
+		
 		# Anzahl der Eintraege in tmp3.txt ermitteln
-		ANZAHL_EINTRAEGE=$(wc -l tmp3.txt);
+		ANZAHL_EINTRAEGE=$(wc -l tmp3.txt | cut -d" " -f1);
 		
 		# Schleife ueber alle Eintraege
-		for((k=1;k<=$ANZAHL_EINTRAEGE; k++))
+		for((k=1;k<$ANZAHL_EINTRAEGE; k++))
 		do
-			EINTRAG=$(head -n $k | tail -n 1);
+			EINTRAG=$(head -n $k tmp3.txt | tail -n 1);
 			ANZAHL=$(grep -c "$j" tmp2.txt); 
-			echo -n "k:" $k;
-			echo -n " Eintrag:" $EINTRAG;
-			echo " Anzahl:" $ANZAHL;
+			# echo -n " Eintrag:" $EINTRAG;
+			# echo -n " Anzahl:" $ANZAHL;
+			
+			# Ergebnis sind zwei Zeichen mehr, da der Eintrag in Anfuehrungszeichen eingeschlossen ist
+			# echo "Laenge Name:" ${#EINTRAG}:
+			echo '"'$EINTRAG'";"'$ANZAHL'";"'${#EINTRAG}'"' >>$AUSGABE_DATEI;
 		done	
 
+		# temporaere Dateien loeschen
+		# rm tmp1.txt;
+		# rm tmp2.txt;
+		# rm tmp3.txt;
 }
 
 function abfrage_first()
@@ -283,5 +293,5 @@ case $1 in
 		echo "";;
 esac
 
-#build=4
+#build=5
 
