@@ -115,7 +115,7 @@ function abfrage_all()
 		for((k=1;k<$ANZAHL_EINTRAEGE; k++))
 		do
 			EINTRAG=$(head -n $k tmp3.txt | tail -n 1);
-			ANZAHL=$(grep -c "$j" tmp2.txt); 
+			ANZAHL=$(grep -c "$EINTRAG" tmp2.txt); 
 			# echo -n " Eintrag:" $EINTRAG;
 			# echo -n " Anzahl:" $ANZAHL;
 			
@@ -293,5 +293,5 @@ case $1 in
 		echo "";;
 esac
 
-#build=5
+#build=6
 
