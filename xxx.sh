@@ -17,8 +17,8 @@
 #
 #######################
 
-VERSIONSDATUM="02.05.2017";
-VERSION="0.3";
+VERSIONSDATUM="14.05.2017";
+VERSION="0.4";
 
 BEGINN_DATUM=$(date +%d.%m.%Y);
 #echo $BEGINN_DATUM;
@@ -372,7 +372,7 @@ function mp4tag_funktion()
 	if [ "$ACTOR" != "" ]
 	then
 		echo "Variable Actor ist gefüllt";
-		ARTIST=$ACTRESS";"$ACTOR;
+		ARTIST=$ACTRESS","$ACTOR;
 	fi
 
 	echo "Actress/Actor:" $ARTIST;
