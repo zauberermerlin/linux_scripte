@@ -367,12 +367,13 @@ function mp4tag_funktion()
 # 9. Cover-Bild
 	#Wenn actor nicht gefüllt/leer, dann nur actress
 	#ansonsten mit; (Semikolon) actress + actor
-	ARTIST=$ACTRESS;
+
+	ARTIST=$(echo $ACTRESS | sed s/\;/,\ /g);
 	
 	if [ "$ACTOR" != "" ]
 	then
 		echo "Variable Actor ist gefüllt";
-		ARTIST=$ACTRESS","$ACTOR;
+		ARTIST=$ACTRESS", "$ACTOR;
 	fi
 
 	echo "Actress/Actor:" $ARTIST;
