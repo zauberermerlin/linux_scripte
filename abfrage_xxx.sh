@@ -106,7 +106,7 @@ function abfrage_all()
 
 # jedes Vorkommen aus tmp3.txt nehmen und schauen, wie oft es in tmp2.txt vorkommt
 		# Erstellung der Ueberschriften
-		echo '"Name";"Vorkommen";"Laenge_Name"' >>$AUSGABE_DATEI;
+		echo '"Name","Vorkommen","Laenge_Name"' >>$AUSGABE_DATEI;
 		
 		# Anzahl der Eintraege in tmp3.txt ermitteln
 		ANZAHL_EINTRAEGE=$(wc -l tmp3.txt | cut -d" " -f1);
@@ -121,7 +121,7 @@ function abfrage_all()
 			
 			# Ergebnis sind zwei Zeichen mehr, da der Eintrag in Anfuehrungszeichen eingeschlossen ist
 			# echo "Laenge Name:" ${#EINTRAG}:
-			echo $EINTRAG';"'$ANZAHL'";"'${#EINTRAG}'"' >>$AUSGABE_DATEI;
+			echo $EINTRAG',"'$ANZAHL'","'${#EINTRAG}'"' >>$AUSGABE_DATEI;
 		done	
 
 		# temporaere Dateien loeschen
