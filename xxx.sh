@@ -17,8 +17,8 @@
 #
 #######################
 
-VERSIONSDATUM="14.05.2017";
-VERSION="0.4";
+VERSIONSDATUM="27.09.2017";
+VERSION="0.5";
 
 BEGINN_DATUM=$(date +%d.%m.%Y);
 #echo $BEGINN_DATUM;
