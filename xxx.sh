@@ -373,8 +373,10 @@ function mp4tag_funktion()
 	if [ "$ACTOR" != "" ]
 	then
 		echo "Variable Actor ist gefüllt";
+		#ARTIST=$(echo $ACTRESS | sed s/\;/,\ /g)", "$ACTOR;
+		
+		ACTOR=$(echo $ACTOR | sed s/\;/,\ /g);
 		ARTIST=$(echo $ACTRESS | sed s/\;/,\ /g)", "$ACTOR;
-		#ARTIST=$ACTRESS", "$ACTOR;
 	fi
 
 	echo "Actress/Actor:" $ARTIST;
